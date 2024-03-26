@@ -4,6 +4,10 @@ import fr.umontpellier.iut.trains.Joueur;
 
 public abstract class Carte {
     private final String nom;
+    private int cout;
+    private int prix;
+    private String type;
+    private String couleur;
 
     /**
      * Constructeur simple
@@ -17,13 +21,42 @@ public abstract class Carte {
      * 
      * @param nom
      */
-    public Carte(String nom) {
+    public Carte(String nom, String type, String couleur, int cout, int prix) {
         this.nom = nom;
+        this.cout = cout;
+        this.prix = prix;
+        this.type = type;
+    }
+
+    public Carte(String nom){
+        this.nom = nom;
+    }
+
+    public Carte(String nom, String type, String couleur){
+        this.nom = nom;
+        this.type = type;
+        this.couleur = couleur;
     }
 
     public String getNom() {
         return nom;
-    }    
+    }
+
+    public int getCout() {
+        return cout;
+    }
+
+    public int getPrix(){
+        return prix;
+    }
+
+    public String getType(){
+        return type;
+    }
+
+    public String getCouleur(){
+        return couleur;
+    }
 
     /**
      * Cette fonction est exécutée lorsqu'un joueur joue la carte pendant son tour.

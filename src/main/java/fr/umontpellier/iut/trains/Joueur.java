@@ -26,7 +26,7 @@ public class Joueur {
     private int argent;
     /**
      * Nombre de points rails dont le joueur dispose. Ces points sont obtenus en
-     * jouant les cartes RAIL (vertes) et remis à zéro entre les tous
+     * jouant les cartes RAIL (vertes) et remis à zéro entre les tours
      */
     private int pointsRails;
     /**
