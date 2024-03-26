@@ -127,7 +127,14 @@ public class Joueur {
      * @return la carte piochée ou {@code null} si aucune carte disponible
      */
     public Carte piocher() {
-        // À FAIRE
+        if (!(pioche.isEmpty())) {
+            return pioche.remove(0);
+        } else if (pioche.isEmpty()){
+            defausse.melanger();
+            pioche.addAll(defausse);
+            defausse.clear();
+            return pioche.remove(0);
+        }
         return null;
     }
 
@@ -145,8 +152,14 @@ public class Joueur {
      *         défausse)
      */
     public List<Carte> piocher(int n) {
-        // À FAIRE
-        return null;
+        List<Carte> res = new ListeDeCartes();
+        for (int i = 0; i < n ; i++) {
+            res.add(piocher());
+        }
+        if (res.isEmpty()) {
+            return null;
+        } else
+            return res;
     }
 
     /**
