@@ -4,7 +4,7 @@ public abstract class Rail extends Carte{
     public Rail(String nom){
         super(nom,"Rail","Vert");
     }
-    public Rail(String nom, int cout, int prix){
-        super(nom, "Rail", "Vert", cout, prix);
+    public Rail(String nom, int cout, String description){
+        super(nom, "Rail", "Vert", cout, 0, description);
     }
 }
