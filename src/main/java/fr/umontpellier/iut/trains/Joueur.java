@@ -129,13 +129,17 @@ public class Joueur {
     public Carte piocher() {
         if (!(pioche.isEmpty())) {
             return pioche.remove(0);
-        } else if (pioche.isEmpty()){
+        } else {
             defausse.melanger();
             pioche.addAll(defausse);
             defausse.clear();
-            return pioche.remove(0);
+            if (!(pioche.isEmpty())){
+                return pioche.remove(0);
+            }
+            else {
+                return null;
+            }
         }
-        return null;
     }
 
     /**
@@ -158,8 +162,9 @@ public class Joueur {
         }
         if (res.isEmpty()) {
             return null;
-        } else
+        } else {
             return res;
+        }
     }
 
     /**
