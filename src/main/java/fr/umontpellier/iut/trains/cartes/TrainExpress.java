@@ -1,7 +1,7 @@
 package fr.umontpellier.iut.trains.cartes;
 
-public class TrainExpress extends Carte {
+public class TrainExpress extends Train {
     public TrainExpress() {
-        super("Train express");
+        super("Train express", 3, 2);
     }
 }

@@ -9,18 +9,16 @@ public abstract class TrainAction extends Train {
         super(nom);
     }
 
-    public TrainAction(String nom, int cout, int prix){
-        super(nom, cout, prix);
-    }
-    public TrainAction(String nom, int nbPrestige, String actionDescriptif, int cout, int prix) {
+    public TrainAction(String nom, int nbPrestige, int cout, int prix, String actionDescriptif) {
         super(nom, cout, prix);
         this.nbPrestige = nbPrestige;
         this.actionDescriptif = actionDescriptif;
     }
 
-    public TrainAction(String nom, String actionDescriptif, int cout, int prix) {
+    public TrainAction(String nom, int cout, int prix, String actionDescriptif) {
         super(nom, cout, prix);
         this.actionDescriptif = actionDescriptif;
+        this.nbPrestige = 0;
     }
 
     public String getTypeSecondaire(){

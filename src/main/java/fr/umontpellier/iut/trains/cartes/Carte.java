@@ -8,6 +8,7 @@ public abstract class Carte {
     private int prix;
     private String type;
     private String couleur;
+    private String description;
 
     /**
      * Constructeur simple
@@ -26,6 +27,15 @@ public abstract class Carte {
         this.cout = cout;
         this.prix = prix;
         this.type = type;
+        description = "";
+    }
+
+    public Carte(String nom, String type, String couleur, int cout, int prix, String description) {
+        this.nom = nom;
+        this.cout = cout;
+        this.prix = prix;
+        this.type = type;
+        this.description = description;
     }
 
     public Carte(String nom){
