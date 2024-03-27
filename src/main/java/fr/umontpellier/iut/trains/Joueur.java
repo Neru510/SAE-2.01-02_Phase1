@@ -206,6 +206,14 @@ public class Joueur {
         while (!finTour) {
             List<String> choixPossibles = new ArrayList<>();
             // À FAIRE: préparer la liste des choix possibles
+            for (Carte c: main) {
+                // ajoute les noms de toutes les cartes en main
+                choixPossibles.add(c.getNom());
+            }
+            for (String nomCarte: jeu.getReserve().keySet()) {
+                // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
+                choixPossibles.add("ACHAT:" + nomCarte);
+            }
 
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
