@@ -5,7 +5,7 @@ import fr.umontpellier.iut.trains.Joueur;
 public abstract class Carte {
     private final String nom;
     private int cout;
-    private int prix;
+    private int prixRevente;
     private String type;
     private String couleur;
     private String description;
@@ -22,18 +22,18 @@ public abstract class Carte {
      * 
      * @param nom
      */
-    public Carte(String nom, String type, String couleur, int cout, int prix) {
+    public Carte(String nom, String type, String couleur, int cout, int prixRevente) {
         this.nom = nom;
         this.cout = cout;
-        this.prix = prix;
+        this.prixRevente = prixRevente;
         this.type = type;
         description = "";
     }
 
-    public Carte(String nom, String type, String couleur, int cout, int prix, String description) {
+    public Carte(String nom, String type, String couleur, int cout, int prixRevente, String description) {
         this.nom = nom;
         this.cout = cout;
-        this.prix = prix;
+        this.prixRevente = prixRevente;
         this.type = type;
         this.description = description;
     }
@@ -56,8 +56,8 @@ public abstract class Carte {
         return cout;
     }
 
-    public int getPrix(){
-        return prix;
+    public int getprixRevente(){
+        return prixRevente;
     }
 
     public String getType(){
