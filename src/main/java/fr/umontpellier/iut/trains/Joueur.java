@@ -136,6 +136,14 @@ public class Joueur {
         return nbJetonsRails;
     }
 
+    public int getArgent() {
+        return argent;
+    }
+
+    public void setArgent(int argent) {
+        this.argent = argent;
+    }
+
     /**
      * Retire et renvoie la première carte de la pioche.
      * <p>
@@ -253,6 +261,7 @@ public class Joueur {
             } else if (choix.equals("")) {
                 // terminer le tour
                 finTour = true;
+
             } else {
                 // jouer une carte de la main
                 Carte carte = main.retirer(choix);

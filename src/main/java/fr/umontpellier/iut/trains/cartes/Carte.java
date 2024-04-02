@@ -96,6 +96,8 @@ public abstract class Carte {
      * @param joueur le joueur qui joue la carte
      */
     public void jouer(Joueur joueur) {
+        int argentDepart = joueur.getArgent();
+        joueur.setArgent(joueur.getArgent() + prixRevente);
     }
 
     @Override
