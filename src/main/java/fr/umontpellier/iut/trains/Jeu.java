@@ -225,7 +225,6 @@ public class Jeu implements Runnable {
         }
 
         int check = 0;
-        boolean checked = false;
 
         for (String carte : reserve.keySet()){
             int a = reserve.get(carte).size();

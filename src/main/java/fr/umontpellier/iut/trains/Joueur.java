@@ -58,6 +58,7 @@ public class Joueur {
      * Couleur du joueur (utilisé par l'interface graphique)
      */
     private CouleurJoueur couleur;
+    private int nbPointsCourants;
 
     public Joueur(Jeu jeu, String nom, CouleurJoueur couleur) {
         this.jeu = jeu;
@@ -115,7 +116,20 @@ public class Joueur {
      */
     public int getScoreTotal() {
         // À FAIRE
-        return 0;
+        //score courant :/
+        int somme = 0;
+        for (Carte c : defausse){
+            somme += c.getNbPrestige();
+        }
+        for (Carte c : pioche){
+            somme += c.getNbPrestige();
+        }
+        for (Carte c : main){
+            somme += c.getNbPrestige();
+        }
+        somme += pointsRails;
+        somme += nbPointsCourants;
+        return somme;
     }
 
     public int getNbJetonsRails(){

@@ -3,7 +3,12 @@ package fr.umontpellier.iut.trains;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import fr.umontpellier.iut.trains.cartes.Carte;
+import fr.umontpellier.iut.trains.cartes.TrainOmnibus;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JeuTest extends BaseTestClass{
 
@@ -30,5 +35,17 @@ public class JeuTest extends BaseTestClass{
         //jeu.modifierNbCartesReserve(4); // fonction dans jeu
         boolean check = jeu.estFini();
         assertTrue(this.jeu.estFini());
+    }
+
+    @Test
+    void test_getScoreTotal_1(){
+        setupJeu();
+        initialisation();
+        assertEquals(0, jeu.getJoueurCourant().getScoreTotal());
+    }
+
+    @Test
+    void test_getScoreTotal_2(){
+        //À FAIRE
     }
 }

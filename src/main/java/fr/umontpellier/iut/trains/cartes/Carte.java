@@ -9,6 +9,7 @@ public abstract class Carte {
     private String type;
     private String couleur;
     private String description;
+    private int nbPrestige = 0;
 
     /**
      * Constructeur simple
@@ -29,6 +30,14 @@ public abstract class Carte {
         this.type = type;
         description = "";
     }
+    public Carte(String nom, String type, String couleur, int cout, int prixRevente, int nbPrestige) {
+        this.nom = nom;
+        this.cout = cout;
+        this.prixRevente = prixRevente;
+        this.type = type;
+        this.nbPrestige = nbPrestige;
+        description = "";
+    }
 
     public Carte(String nom, String type, String couleur, int cout, int prixRevente, String description) {
         this.nom = nom;
@@ -36,6 +45,14 @@ public abstract class Carte {
         this.prixRevente = prixRevente;
         this.type = type;
         this.description = description;
+    }
+    public Carte(String nom, String type, String couleur, int cout, int prixRevente, String description, int nbPrestige) {
+        this.nom = nom;
+        this.cout = cout;
+        this.prixRevente = prixRevente;
+        this.type = type;
+        this.description = description;
+        this.nbPrestige = nbPrestige;
     }
 
     public Carte(String nom){
@@ -66,6 +83,10 @@ public abstract class Carte {
 
     public String getCouleur(){
         return couleur;
+    }
+    
+    public int getNbPrestige(){
+        return nbPrestige;
     }
 
     /**
