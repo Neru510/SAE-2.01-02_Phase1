@@ -222,11 +222,38 @@ public class Joueur {
 
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
-
             // À FAIRE: exécuter l'action demandée par le joueur
+            if (choix.startsWith("ACHAT:")) {
+                // prendre une carte dans la réserve
+                String nomCarte = choix.split(":")[1];
+                Carte carte = jeu.prendreDansLaReserve(nomCarte);
+                if (carte != null & argent >= carte.getprixRevente()) {
+                    log("Reçoit " + carte); // affichage dans le log
+                    argent -= carte.getprixRevente();
+                    cartesRecues.add(carte);
+                }
+            } else if (choix.equals("")) {
+                // terminer le tour
+                finTour = true;
+            } else {
+                // jouer une carte de la main
+                Carte carte = main.retirer(choix);
+                log("Joue " + carte); // affichage dans le log
+                cartesEnJeu.add(carte); // mettre la carte en jeu
+                carte.jouer(this);  // exécuter l'action de la carte
+            }
         }
         // Finalisation
         // À FAIRE: compléter la finalisation du tour
+        // défausser toutes les cartes
+        defausse.addAll(main);
+        main.clear();
+        defausse.addAll(cartesRecues);
+        cartesRecues.clear();
+        defausse.addAll(cartesEnJeu);
+        cartesEnJeu.clear();
+
+        main.addAll(piocher(5)); // piocher 5 cartes en main
     }
 
     /**
