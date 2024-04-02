@@ -73,6 +73,8 @@ public class Jeu implements Runnable {
      */
     private List<Bouton> boutons;
 
+    private ArrayList<String> pilesDeRserves;
+
     /**
      * Constructeur de la classe Jeu
      * 
@@ -212,6 +214,30 @@ public class Jeu implements Runnable {
      */
     public boolean estFini() {
         // À FAIRE: réécrire cette méthode
+        for (int i = 0; i < joueurs.size(); i++){ // vérifie si un des joueurs a posé tous ses jetons Rail sur le plateau
+            if (joueurs.get(i).getNbJetonsRails() == 0){
+                return true;
+            }
+        }
+
+        if (nbJetonsGare == 0){//vérifie si tous les jetons gares ont été posés sur le tableau
+            return true;
+        }
+
+        int check = 0;
+        boolean checked = false;
+
+        for (String carte : reserve.keySet()){
+            int a = reserve.get(carte).size();
+            if (a == 0){
+                check++;
+            }
+            if (check >= 4) {
+                return true;
+            }
+        }
+
+
         return false;
     }
 
@@ -310,4 +336,17 @@ public class Jeu implements Runnable {
                 Map.entry("log", log),
                 Map.entry("reserve", listeReserve));
     }
+
+    /*
+    public void modifierNbJetonGare(int jetonsGare){ // utilisé pour test à effacer plus tard
+        nbJetonsGare = jetonsGare;
+    }
+
+    public void modifierNbCartesReserve(int a){ // fonction a effacer
+        for (int i = 0; i < a; i++){
+            reserve.keySet().toArray()[i] = 0;
+            ListeDeCartes liste = new ListeDeCartes();
+            reserve.put(String.valueOf(i), liste);
+        }
+    }*/
 }
