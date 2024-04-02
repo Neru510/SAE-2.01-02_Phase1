@@ -118,6 +118,10 @@ public class Joueur {
         return 0;
     }
 
+    public int getNbJetonsRails(){
+        return nbJetonsRails;
+    }
+
     /**
      * Retire et renvoie la première carte de la pioche.
      * <p>
@@ -390,4 +394,9 @@ public class Joueur {
                 Map.entry("pioche", pioche.dataMap()),
                 Map.entry("actif", jeu.getJoueurCourant() == this));
     }
+
+    /*
+    public void modifierNbJetonsRails(int i){
+        nbJetonsRails = i;
+    }*/
 }
