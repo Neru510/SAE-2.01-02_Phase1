@@ -5,7 +5,7 @@ import fr.umontpellier.iut.trains.Joueur;
 public abstract class Carte {
     private final String nom;
     private int cout;
-    private int prixRevente;
+    private int valeur;
     private String type;
     private String couleur;
     private String description;
@@ -23,33 +23,33 @@ public abstract class Carte {
      * 
      * @param nom
      */
-    public Carte(String nom, String type, String couleur, int cout, int prixRevente) {
+    public Carte(String nom, String type, String couleur, int cout, int valeur) {
         this.nom = nom;
         this.cout = cout;
-        this.prixRevente = prixRevente;
+        this.valeur = valeur;
         this.type = type;
         description = "";
     }
-    public Carte(String nom, String type, String couleur, int cout, int prixRevente, int nbPrestige) {
+    public Carte(String nom, String type, String couleur, int cout, int valeur, int nbPrestige) {
         this.nom = nom;
         this.cout = cout;
-        this.prixRevente = prixRevente;
+        this.valeur = valeur;
         this.type = type;
         this.nbPrestige = nbPrestige;
         description = "";
     }
 
-    public Carte(String nom, String type, String couleur, int cout, int prixRevente, String description) {
+    public Carte(String nom, String type, String couleur, int cout, int valeur, String description) {
         this.nom = nom;
         this.cout = cout;
-        this.prixRevente = prixRevente;
+        this.valeur = valeur;
         this.type = type;
         this.description = description;
     }
-    public Carte(String nom, String type, String couleur, int cout, int prixRevente, String description, int nbPrestige) {
+    public Carte(String nom, String type, String couleur, int cout, int valeur, String description, int nbPrestige) {
         this.nom = nom;
         this.cout = cout;
-        this.prixRevente = prixRevente;
+        this.valeur = valeur;
         this.type = type;
         this.description = description;
         this.nbPrestige = nbPrestige;
@@ -73,8 +73,8 @@ public abstract class Carte {
         return cout;
     }
 
-    public int getprixRevente(){
-        return prixRevente;
+    public int getvaleur(){
+        return valeur;
     }
 
     public String getType(){
@@ -96,8 +96,10 @@ public abstract class Carte {
      * @param joueur le joueur qui joue la carte
      */
     public void jouer(Joueur joueur) {
+        if (this.)
         int argentDepart = joueur.getArgent();
-        joueur.setArgent(joueur.getArgent() + prixRevente);
+        joueur.setArgent(joueur.getArgent() + valeur);
+
     }
 
     @Override
