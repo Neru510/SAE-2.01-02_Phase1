@@ -96,11 +96,13 @@ public abstract class Carte {
      * @param joueur le joueur qui joue la carte
      */
     public void jouer(Joueur joueur) {
-        if (this.)
-        int argentDepart = joueur.getArgent();
-        joueur.setArgent(joueur.getArgent() + valeur);
-
+        if (this.valeur > 0) {
+            int argentDepart = joueur.getArgent();
+            joueur.setArgent(joueur.getArgent() + valeur);
+        }
+        // On rajoute
     }
+    public int
 
     @Override
     public String toString() {

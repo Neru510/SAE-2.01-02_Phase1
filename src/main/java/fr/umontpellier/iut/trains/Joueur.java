@@ -253,9 +253,9 @@ public class Joueur {
                 // prendre une carte dans la réserve
                 String nomCarte = choix.split(":")[1];
                 Carte carte = jeu.prendreDansLaReserve(nomCarte);
-                if (carte != null & argent >= carte.getprixRevente()) {
+                if (carte != null & argent >= carte.getvaleur()) {
                     log("Reçoit " + carte); // affichage dans le log
-                    argent -= carte.getprixRevente();
+                    argent -= carte.getvaleur();
                     cartesRecues.add(carte);
                 }
             } else if (choix.equals("")) {
@@ -270,6 +270,7 @@ public class Joueur {
                 carte.jouer(this);  // exécuter l'action de la carte
             }
         }
+        setArgent(0);
         // Finalisation
         // À FAIRE: compléter la finalisation du tour
         // défausser toutes les cartes
@@ -279,7 +280,6 @@ public class Joueur {
         cartesRecues.clear();
         defausse.addAll(cartesEnJeu);
         cartesEnJeu.clear();
-
         main.addAll(piocher(5)); // piocher 5 cartes en main
     }
 
