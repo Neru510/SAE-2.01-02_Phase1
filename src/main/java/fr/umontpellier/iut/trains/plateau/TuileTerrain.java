@@ -13,4 +13,8 @@ public class TuileTerrain extends Tuile {
         super();
         this.type = type;
     }
+
+    public boolean estPosable(){
+        return true;
+    }
 }

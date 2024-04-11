@@ -59,6 +59,7 @@ public class Joueur {
      */
     private CouleurJoueur couleur;
     private int nbPointsCourants;
+    private int[] coordonnees;
 
     public Joueur(Jeu jeu, String nom, CouleurJoueur couleur) {
         this.jeu = jeu;
@@ -116,7 +117,6 @@ public class Joueur {
      */
     public int getScoreTotal() {
         // À FAIRE
-        //score courant :/
         int somme = 0;
         for (Carte c : defausse){
             somme += c.getNbPrestige();
@@ -253,9 +253,9 @@ public class Joueur {
                 // prendre une carte dans la réserve
                 String nomCarte = choix.split(":")[1];
                 Carte carte = jeu.prendreDansLaReserve(nomCarte);
-                if (carte != null & argent >= carte.getvaleur()) {
+                if (carte != null && argent >= carte.getCout()) {
                     log("Reçoit " + carte); // affichage dans le log
-                    argent -= carte.getvaleur();
+                    argent -= carte.getCout();
                     cartesRecues.add(carte);
                 }
             } else if (choix.equals("")) {
@@ -270,7 +270,6 @@ public class Joueur {
                 carte.jouer(this);  // exécuter l'action de la carte
             }
         }
-        setArgent(0);
         // Finalisation
         // À FAIRE: compléter la finalisation du tour
         // défausser toutes les cartes
@@ -280,6 +279,7 @@ public class Joueur {
         cartesRecues.clear();
         defausse.addAll(cartesEnJeu);
         cartesEnJeu.clear();
+
         main.addAll(piocher(5)); // piocher 5 cartes en main
     }
 
@@ -368,6 +368,12 @@ public class Joueur {
         }
     }
 
+    public void choisirPosition(Collection<String> choix){
+        String a = choisir(this.nom + " choisit une tuile de départ en cliquant dessus", choix, null, false);
+        String [] words = a.split(":");
+        coordonnees[coordonnees.length-1] = Integer.parseInt(words[1]);
+    }
+
     /**
      * Ajoute un message dans le log du jeu
      * 
@@ -416,6 +422,10 @@ public class Joueur {
                 Map.entry("cartesRecues", cartesRecues.dataMap()),
                 Map.entry("pioche", pioche.dataMap()),
                 Map.entry("actif", jeu.getJoueurCourant() == this));
+    }
+
+    public int[] getCoordonnees(){
+        return coordonnees;
     }
 
     /*

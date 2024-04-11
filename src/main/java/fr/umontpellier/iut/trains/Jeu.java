@@ -1,21 +1,14 @@
 package fr.umontpellier.iut.trains;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import fr.umontpellier.iut.trains.cartes.Carte;
 import fr.umontpellier.iut.trains.cartes.FabriqueListeDeCartes;
 import fr.umontpellier.iut.trains.cartes.ListeDeCartes;
-import fr.umontpellier.iut.trains.plateau.Plateau;
-import fr.umontpellier.iut.trains.plateau.Tuile;
+import fr.umontpellier.iut.trains.plateau.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Jeu implements Runnable {
     /**
@@ -194,6 +187,18 @@ public class Jeu implements Runnable {
     public void run() {
         // initialisation (chaque joueur choisit une position de départ)
         // À FAIRE: compléter la partie initialisation
+        Collection<String> choix = new ArrayList<String>();
+        for (int i = 0; i < tuiles.size(); i++){
+            if (tuiles.get(i).estPosable()){
+                choix.add("TUILE:" + i);
+            }
+        }
+        for (Joueur j : joueurs){
+            //faire joueur choisir position
+            j.choisirPosition(choix);
+            j.jouerTour();
+        }
+
 
         // tours des joueurs jusqu'à une condition de fin
         while (!estFini()) {
@@ -213,7 +218,6 @@ public class Jeu implements Runnable {
      * @return {@code true} si la partie est finie, {@code false} sinon
      */
     public boolean estFini() {
-        // À FAIRE: réécrire cette méthode
         for (int i = 0; i < joueurs.size(); i++){ // vérifie si un des joueurs a posé tous ses jetons Rail sur le plateau
             if (joueurs.get(i).getNbJetonsRails() == 0){
                 return true;

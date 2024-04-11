@@ -8,4 +8,7 @@ public class TuileMer extends Tuile {
     public TuileMer() {
         super();
     }
+    public boolean estPosable(){
+        return false;
+    }
 }

@@ -102,9 +102,7 @@ public abstract class Carte {
         }
         // On rajoute
     }
-    public int
 
-    @Override
     public String toString() {
         return nom;
     }

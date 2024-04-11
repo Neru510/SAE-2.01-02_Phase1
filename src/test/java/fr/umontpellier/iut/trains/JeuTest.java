@@ -2,12 +2,11 @@ package fr.umontpellier.iut.trains;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-import fr.umontpellier.iut.trains.cartes.Carte;
-import fr.umontpellier.iut.trains.cartes.TrainOmnibus;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class JeuTest extends BaseTestClass{
@@ -44,8 +43,22 @@ public class JeuTest extends BaseTestClass{
         assertEquals(0, jeu.getJoueurCourant().getScoreTotal());
     }
 
+    @Disabled
     @Test
     void test_getScoreTotal_2(){
         //À FAIRE
+    }
+
+    @Test
+    void test_run(){
+        setupJeu();
+        Collection<String> choix = new ArrayList<String>();
+        for (int i = 0; i < tuiles.size(); i++){
+            if (tuiles.get(i).estPosable()){
+                choix.add("TUILES:" + i);
+            }
+        }
+        System.out.println(choix);
+        containsReference(choix, "TUILE:23");
     }
 }

@@ -18,4 +18,8 @@ public class TuileVille extends Tuile {
         this.nbGaresMax = taille;
         this.nbGaresPosees = 0;
     }
+
+    public boolean estPosable(){
+        return true;
+    }
 }

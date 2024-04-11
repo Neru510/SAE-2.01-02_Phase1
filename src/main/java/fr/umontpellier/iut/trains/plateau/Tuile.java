@@ -103,4 +103,6 @@ public abstract class Tuile {
         }
         return map;
     }
+
+    public abstract boolean estPosable();
 }
