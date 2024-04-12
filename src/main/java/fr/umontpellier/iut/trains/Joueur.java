@@ -101,6 +101,42 @@ public class Joueur {
         return couleur;
     }
 
+    public ListeDeCartes getMain(){
+        return main;
+    }
+
+    public int getNbJetonsRails(){
+        return nbJetonsRails;
+    }
+
+    public int getArgent() {
+        return argent;
+    }
+
+    public ListeDeCartes getCartesEnJeu() {
+        return cartesEnJeu;
+    }
+
+    public ListeDeCartes getCartesRecues() {
+        return cartesRecues;
+    }
+
+    public void setArgent(int argent) {
+        this.argent = argent;
+    }
+
+    public void setMain(ListeDeCartes main) {
+        this.main = main;
+    }
+
+    public void setCartesEnJeu(ListeDeCartes cartesEnJeu) {
+        this.cartesEnJeu = cartesEnJeu;
+    }
+
+    public void setCartesRecues(ListeDeCartes cartesRecues) {
+        this.cartesRecues = cartesRecues;
+    }
+
     /**
      * Renvoie le score total du joueur
      * <p>
@@ -130,18 +166,6 @@ public class Joueur {
         somme += pointsRails;
         somme += nbPointsCourants;
         return somme;
-    }
-
-    public int getNbJetonsRails(){
-        return nbJetonsRails;
-    }
-
-    public int getArgent() {
-        return argent;
-    }
-
-    public void setArgent(int argent) {
-        this.argent = argent;
     }
 
     /**
