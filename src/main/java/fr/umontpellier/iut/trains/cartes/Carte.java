@@ -11,6 +11,8 @@ public abstract class Carte {
     private String description;
     private int nbPrestige = 0;
 
+    private boolean feraille = false;
+
     /**
      * Constructeur simple
      * <p>
@@ -106,5 +108,13 @@ public abstract class Carte {
     @Override
     public String toString() {
         return nom;
+    }
+
+    public boolean isFeraille(){
+        return feraille;
+    }
+
+    public void setFeraille(boolean feraille){
+        this.feraille=feraille;
     }
 }

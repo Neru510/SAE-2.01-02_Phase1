@@ -106,6 +106,7 @@ public class Jeu implements Runnable {
             this.joueurs.add(new Joueur(this, nomJoueur, couleurs.remove(0)));
         }
         this.joueurCourant = joueurs.get(0);
+        //this.joueurCourant.setArgent(100);
     }
 
     public Joueur getJoueurCourant() {
@@ -168,6 +169,18 @@ public class Jeu implements Runnable {
             return null;
         }
         return pile.remove(0);
+    }
+
+    public Carte voirLaReserve(String nomCarte){
+        if (!reserve.containsKey(nomCarte)) {
+            return null;
+        }
+
+        ListeDeCartes pile = reserve.get(nomCarte);
+        if (pile.isEmpty()) {
+            return null;
+        }
+        return pile.get(0);
     }
 
     /**

@@ -91,6 +91,8 @@ public class Joueur {
             main.add(pioche.remove(0));
         }
 
+        coordonnees = new int[100];
+
     }
 
     public String getNom() {
@@ -217,6 +219,13 @@ public class Joueur {
         }
     }
 
+    public void piocherFeraille(int n){
+        for (int i = 0; i < n; i++){
+            Carte carte = jeu.prendreDansLaReserve("Feraille");
+            cartesRecues.add(carte);
+        }
+    }
+
     /**
      * Joue un tour complet du joueur
      * <p>
@@ -276,11 +285,20 @@ public class Joueur {
             if (choix.startsWith("ACHAT:")) {
                 // prendre une carte dans la réserve
                 String nomCarte = choix.split(":")[1];
-                Carte carte = jeu.prendreDansLaReserve(nomCarte);
+                Carte carte = jeu.voirLaReserve(nomCarte);
                 if (carte != null && argent >= carte.getCout()) {
+                    jeu.prendreDansLaReserve(nomCarte);
                     log("Reçoit " + carte); // affichage dans le log
                     argent -= carte.getCout();
                     cartesRecues.add(carte);
+                    if (carte.isFeraille()){
+                        Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
+                        cartesRecues.add(carteFeraille);
+                        log("Reçoit " + carteFeraille);
+                    }
+                }
+                else {
+                    log("Pas assez d'argent"); //si a le temps indiquer le nombre de pièces manquante
                 }
             } else if (choix.equals("")) {
                 // terminer le tour
@@ -395,7 +413,9 @@ public class Joueur {
     public void choisirPosition(Collection<String> choix){
         String a = choisir(this.nom + " choisit une tuile de départ en cliquant dessus", choix, null, false);
         String [] words = a.split(":");
-        coordonnees[coordonnees.length-1] = Integer.parseInt(words[1]);
+        if (Integer.parseInt(words[1]) > -1){
+            coordonnees[coordonnees.length-1] = Integer.parseInt(words[1]);
+        }
     }
 
     /**
