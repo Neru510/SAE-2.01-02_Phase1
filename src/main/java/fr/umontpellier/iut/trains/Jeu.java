@@ -353,6 +353,10 @@ public class Jeu implements Runnable {
                 Map.entry("reserve", listeReserve));
     }
 
+    public void ecarterCarte(Carte carte){
+        cartesEcartees.add(carte);
+    }
+
     /*
     public void modifierNbJetonGare(int jetonsGare){ // utilisé pour test à effacer plus tard
         nbJetonsGare = jetonsGare;

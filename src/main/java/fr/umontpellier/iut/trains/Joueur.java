@@ -1,11 +1,6 @@
 package fr.umontpellier.iut.trains;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 
 import fr.umontpellier.iut.trains.cartes.Carte;
 import fr.umontpellier.iut.trains.cartes.FabriqueListeDeCartes;
@@ -127,8 +122,22 @@ public class Joueur {
         this.argent = argent;
     }
 
+    public void ajouterArgent(int n){
+        argent += n;
+    }
+
     public void setMain(ListeDeCartes main) {
         this.main = main;
+    }
+
+    public void ajouterMain(int n){
+        List<Carte> main = piocher(n);
+        this.main.addAll(main);
+    }
+
+    public void ajouterMain(){
+        Carte carte = piocher();
+        main.add(carte);
     }
 
     public void setCartesEnJeu(ListeDeCartes cartesEnJeu) {
@@ -226,6 +235,10 @@ public class Joueur {
         }
     }
 
+    public void removeCarte(Carte carte){
+        main.remove(carte);
+    }
+
     /**
      * Joue un tour complet du joueur
      * <p>
@@ -266,9 +279,11 @@ public class Joueur {
         // rien de spécial à faire)
 
         boolean finTour = false;
+        List<String> choixChoisis = new ArrayList<>();
         // Boucle principale
         while (!finTour) {
             List<String> choixPossibles = new ArrayList<>();
+
             // À FAIRE: préparer la liste des choix possibles
             for (Carte c: main) {
                 // ajoute les noms de toutes les cartes en main
@@ -279,8 +294,12 @@ public class Joueur {
                 choixPossibles.add("ACHAT:" + nomCarte);
             }
 
+            choixPossibles.add("oui");
+            choixPossibles.add("non");
+
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
+            choixChoisis.add(choix);
             // À FAIRE: exécuter l'action demandée par le joueur
             if (choix.startsWith("ACHAT:")) {
                 // prendre une carte dans la réserve
@@ -304,7 +323,15 @@ public class Joueur {
                 // terminer le tour
                 finTour = true;
 
-            } else {
+            } else if (choix.equals("oui")){
+                if (choixChoisis.size() > 1){
+                    if (choixChoisis.get(choixChoisis.size() - 2).equals("Horaires estivaux")){
+                        jeu.ecarterCarte(cartesEnJeu.retirer(choixChoisis.get(choixChoisis.size() - 2)));
+                        ajouterArgent(3);
+                    }
+                }
+            }
+            else {
                 // jouer une carte de la main
                 Carte carte = main.retirer(choix);
                 log("Joue " + carte); // affichage dans le log
@@ -470,6 +497,10 @@ public class Joueur {
 
     public int[] getCoordonnees(){
         return coordonnees;
+    }
+
+    public void ajouterPointScoreTotal(int n){
+        this.nbPointsCourants += n;
     }
 
     /*

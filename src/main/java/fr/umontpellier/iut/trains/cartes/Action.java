@@ -10,6 +10,10 @@ public abstract class Action extends Carte{
         super(nom, "Action", "Rouge", cout, valeur, action);
     }
 
+    public Action(String nom, int cout, int valeur){
+        super(nom, "Action", "Rouge", cout, valeur);
+    }
+
     @Override
     public void jouer(Joueur joueur) {
         super.jouer(joueur) ;

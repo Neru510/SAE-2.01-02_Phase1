@@ -11,7 +11,7 @@ public abstract class Carte {
     private String description;
     private int nbPrestige = 0;
 
-    private boolean feraille = false;
+    private boolean ferraille = false;
 
     /**
      * Constructeur simple
@@ -30,7 +30,6 @@ public abstract class Carte {
         this.cout = cout;
         this.valeur = valeur;
         this.type = type;
-        description = "";
     }
     public Carte(String nom, String type, String couleur, int cout, int valeur, int nbPrestige) {
         this.nom = nom;
@@ -38,7 +37,6 @@ public abstract class Carte {
         this.valeur = valeur;
         this.type = type;
         this.nbPrestige = nbPrestige;
-        description = "";
     }
 
     public Carte(String nom, String type, String couleur, int cout, int valeur, String description) {
@@ -102,6 +100,9 @@ public abstract class Carte {
             int argentDepart = joueur.getArgent();
             joueur.setArgent(joueur.getArgent() + valeur);
         }
+        if (this.nbPrestige > 0){
+            joueur.ajouterPointScoreTotal(nbPrestige);
+        }
         // On rajoute
     }
 
@@ -111,10 +112,10 @@ public abstract class Carte {
     }
 
     public boolean isFeraille(){
-        return feraille;
+        return ferraille;
     }
 
-    public void setFeraille(boolean feraille){
-        this.feraille=feraille;
+    public void setFeraille(boolean ferraille){
+        this.ferraille=ferraille;
     }
 }

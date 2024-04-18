@@ -2,14 +2,16 @@ package fr.umontpellier.iut.trains.cartes;
 
 import fr.umontpellier.iut.trains.Joueur;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Aiguillage extends Action {
     public Aiguillage() {
-        super("Aiguillage",5,0,"Piochez deux cartes");
+        super("Aiguillage",5,0);
     }
 
     @Override
     public void jouer(Joueur joueur) {
-        super.jouer(joueur);
-        joueur.piocher(2);
+        joueur.ajouterMain(2);
     }
 }
