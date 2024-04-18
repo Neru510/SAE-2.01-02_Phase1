@@ -12,6 +12,7 @@ public class Aiguillage extends Action {
 
     @Override
     public void jouer(Joueur joueur) {
+        super.jouer(joueur);
         joueur.ajouterMain(2);
     }
 }

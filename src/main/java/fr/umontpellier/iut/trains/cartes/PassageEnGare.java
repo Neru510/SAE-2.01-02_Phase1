@@ -9,6 +9,7 @@ public class PassageEnGare extends Action {
 
     @Override
     public void jouer(Joueur joueur){
+        super.jouer(joueur);
         joueur.ajouterMain();
     }
 }
