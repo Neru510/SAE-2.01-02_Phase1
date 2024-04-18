@@ -4,7 +4,7 @@ import fr.umontpellier.iut.trains.Joueur;
 
 public class PassageEnGare extends Action {
     public PassageEnGare() {
-        super("Passage en gare", 3, 1, "Piochez 1 carte.");
+        super("Passage en gare", 3, 1);
     }
 
     @Override

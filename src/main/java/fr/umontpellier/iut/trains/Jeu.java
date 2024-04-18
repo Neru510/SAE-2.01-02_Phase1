@@ -183,6 +183,12 @@ public class Jeu implements Runnable {
         return pile.get(0);
     }
 
+    public void ajouterReserve(Carte carte){
+        ListeDeCartes pile = new ListeDeCartes();
+        pile.add(carte);
+        reserve.put(carte.getNom(), pile);
+    }
+
     /**
      * Modifie l'attribut {@code joueurCourant} pour passer au joueur suivant dans
      * l'ordre du tableau {@code joueurs} (le tableau est considéré circulairement)
