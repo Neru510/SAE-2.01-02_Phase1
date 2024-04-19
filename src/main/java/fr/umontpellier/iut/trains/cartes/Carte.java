@@ -4,7 +4,7 @@ import fr.umontpellier.iut.trains.Joueur;
 
 public abstract class Carte {
     private final String nom;
-    private int cout;
+    private final int cout;
     private int valeur;
     private String type;
     private String couleur;
@@ -35,36 +35,18 @@ public abstract class Carte {
     }
     public Carte(String nom, String type, String couleur, int cout, int valeur, int nbPrestige) {
         this.nom = nom;
+        this.couleur = couleur;
         this.cout = cout;
         this.valeur = valeur;
         this.type = type;
         this.nbPrestige = nbPrestige;
-    }
-
-    public Carte(String nom, String type, String couleur, int cout, int valeur, String description) {
-        this.nom = nom;
-        this.cout = cout;
-        this.valeur = valeur;
-        this.type = type;
-        this.description = description;
-    }
-    public Carte(String nom, String type, String couleur, int cout, int valeur, String description, int nbPrestige) {
-        this.nom = nom;
-        this.cout = cout;
-        this.valeur = valeur;
-        this.type = type;
-        this.description = description;
-        this.nbPrestige = nbPrestige;
-    }
-
-    public Carte(String nom){
-        this.nom = nom;
     }
 
     public Carte(String nom, String type, String couleur){
         this.nom = nom;
         this.type = type;
         this.couleur = couleur;
+        this.cout = 0;
     }
 
     public String getNom() {

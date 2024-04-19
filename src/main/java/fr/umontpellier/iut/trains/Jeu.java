@@ -186,7 +186,13 @@ public class Jeu implements Runnable {
     public void ajouterReserve(Carte carte){
         ListeDeCartes pile = new ListeDeCartes();
         pile.add(carte);
-        reserve.put(carte.getNom(), pile);
+        reserve.get(carte.getNom()).add(carte);
+    }
+
+    public void ajouterReserve(List<Carte> cartes){
+        for (Carte c : cartes){
+            ajouterReserve(c);
+        }
     }
 
     /**

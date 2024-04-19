@@ -301,6 +301,7 @@ public class Joueur {
 
         boolean finTour = false;
         List<String> choixChoisis = new ArrayList<>();
+        boolean ferraille = false;
         // Boucle principale
         while (!finTour) {
             List<String> choixPossibles = new ArrayList<>();
@@ -334,14 +335,17 @@ public class Joueur {
                     log("Reçoit " + carte); // affichage dans le log
                     argent -= carte.getCout();
                     cartesRecues.add(carte);
-                    if (carte.isFeraille()){
+                    if (carte.isFeraille() && !ferraille){
                         casIsFeraille();
                     }
                 }
                 else {
-                    log("Pas assez d'argent"); //si a le temps indiquer le nombre de pièces manquante
+                    assert carte != null;
+                    int i = (argent - carte.getCout());
+                    String cost = String.valueOf(i);
+                    log("Pas assez d'argent, il manque " + cost);
                 }
-            } else if (choix.equals("")) {
+            } else if (choix.isEmpty()) {
                 // terminer le tour
                 finTour = true;
 
@@ -362,11 +366,20 @@ public class Joueur {
                     check = casIsPeutEtreDepot(carte, choixChoisis);
                 }
                 if (!check) {
+                    int size = cartesRecues.size();
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     carte.jouer(this);  // exécuter l'action de la carte
+                    if (size < cartesRecues.size()){
+                        if (cartesRecues.get(cartesRecues.size()-1).getNom().equals("Ferraille")){
+                            jeu.ajouterReserve(cartesRecues.get(cartesRecues.size()-1));
+                            cartesRecues.remove(cartesRecues.get(cartesRecues.size()-1));
+                        }
+                    }
                 }
-
+                if (choix.equals("Dépotoir")){
+                    ferraille = true;
+                }
 
             }
         }
@@ -629,6 +642,19 @@ public class Joueur {
 
     public void ajouterCartesRecues(Carte carte){
         this.cartesRecues.add(carte);
+    }
+
+    public List<Carte> prendreCarteDeMain(String nomCarte){
+        List<Carte> cartes = new ArrayList<>();
+        List<Carte> main = new ArrayList<>();
+        main.addAll(this.main);
+        for (Carte c : main){
+            if (c.getNom().equals(nomCarte)){
+                cartes.add(c);
+                this.main.remove(c);
+            }
+        }
+        return cartes;
     }
 
     /*

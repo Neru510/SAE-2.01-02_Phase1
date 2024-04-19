@@ -301,6 +301,7 @@ public class CartesProfTest extends BaseTestClass {
         addAll(pioche, fondPioche);
 
         jouerTourPartiel("Dépotoir");
+        jouerTourPartiel("Dépotoir");
 
         assertTrue(containsReferences(main));
         assertTrue(containsReferencesInOrder(pioche, fondPioche));
