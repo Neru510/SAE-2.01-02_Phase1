@@ -27,9 +27,10 @@ public abstract class Carte {
      */
     public Carte(String nom, String type, String couleur, int cout, int valeur) {
         this.nom = nom;
+        this.type = type;
+        this.couleur = couleur;
         this.cout = cout;
         this.valeur = valeur;
-        this.type = type;
     }
     public Carte(String nom, String type, String couleur, int cout, int valeur, int nbPrestige) {
         this.nom = nom;

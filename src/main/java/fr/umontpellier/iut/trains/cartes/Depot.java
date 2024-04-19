@@ -2,8 +2,6 @@ package fr.umontpellier.iut.trains.cartes;
 
 import fr.umontpellier.iut.trains.Joueur;
 
-import java.util.ArrayList;
-
 public class Depot extends Action {
     public Depot() {
         super("Dépôt", 3, 1, "Piochez 2 cartes. Défaussez 2 cartes de votre main");
@@ -11,7 +9,7 @@ public class Depot extends Action {
     @Override
     public void jouer(Joueur joueur){
         super.jouer(joueur);
-        joueur.ajouterMain(2);
+        joueur.piocherEtAjouterMain(2);
         /*
         ArrayList<String> choixMain = new ArrayList<>();
         for (Carte carte : joueur.getMain()){

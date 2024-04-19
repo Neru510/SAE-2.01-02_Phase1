@@ -117,6 +117,7 @@ public class Joueur {
     public ListeDeCartes getCartesRecues() {
         return cartesRecues;
     }
+    public Jeu getJeu(){ return jeu;}
 
     public void setArgent(int argent) {
         this.argent = argent;
@@ -130,12 +131,12 @@ public class Joueur {
         this.main = main;
     }
 
-    public void ajouterMain(int n){
+    public void piocherEtAjouterMain(int n){
         List<Carte> main = piocher(n);
         this.main.addAll(main);
     }
 
-    public void ajouterMain(){
+    public void piocherEtAjouterMain(){
         Carte carte = piocher();
         main.add(carte);
     }
@@ -322,9 +323,7 @@ public class Joueur {
                     argent -= carte.getCout();
                     cartesRecues.add(carte);
                     if (carte.isFeraille()){
-                        Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
-                        cartesRecues.add(carteFeraille);
-                        log("Reçoit " + carteFeraille);
+                        casIsFeraille();
                     }
                 }
                 else {
@@ -335,48 +334,19 @@ public class Joueur {
                 finTour = true;
 
             } else if (choix.equals("oui") || choix.equals("non")){
-                if (choix.equals("oui")){
-                    if (choixChoisis.size() > 1){
-                        if (choixChoisis.get(choixChoisis.size() - 2).equals("Horaires estivaux")){
-                            jeu.ecarterCarte(cartesEnJeu.retirer(choixChoisis.get(choixChoisis.size() - 2)));
-                            ajouterArgent(3);
-                        }
-                    }
-                }
+                casIsOuiNon(choix, choixChoisis);
             }
             else if (choixChoisis.size() > 1 && choixChoisis.get(choixChoisis.size()-2).equals("Personnel de gare")){
-                switch (choixChoisis.get(choixChoisis.size() - 1)) {
-                    case "piocher" -> ajouterMain();
-                    case "argent" -> argent++;
-                    case "ferraille" -> {
-                        Carte carte = main.retirer("Ferraille");
-                        if (carte!= null) {
-                            main.remove(carte);
-                            jeu.ajouterReserve(carte);
-                        } else {
-                            log("Vous n'avez pas de carte ferraille dans votre main");
-                        }
-                    }
-                    default ->
-                            log("choisissez entre piocher une carte (taper piocher), gagner une pièce (taper argent), remettre une carte ferraille dans la pioche (taper ferraille)");
-                }
+                casIsPersonneDeGare(choixChoisis);
             }
             else {
                 // jouer une carte de la main
                 Carte carte = main.retirer(choix);
+                boolean check = false;
                 if (choixChoisis.size() > 1){
-                    if (choixChoisis.get(choixChoisis.size()-2).equals("Dépôt")){
-                        defausse.add(carte);
-                        main.remove(carte);
-                    }
-                    else if (choixChoisis.size() > 2){
-                        if (choixChoisis.get(choixChoisis.size()-3).equals("Dépôt")){
-                            defausse.add(carte);
-                            main.remove(carte);
-                        }
-                    }
+                    check = casIsPeutEtreDepot(carte, choixChoisis);
                 }
-                else {
+                if (!check) {
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     carte.jouer(this);  // exécuter l'action de la carte
@@ -396,6 +366,83 @@ public class Joueur {
         cartesEnJeu.clear();
 
         main.addAll(piocher(5)); // piocher 5 cartes en main
+    }
+
+    public void casIsFeraille(){
+        Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
+        cartesRecues.add(carteFeraille);
+        log("Reçoit " + carteFeraille);
+    }
+
+    public void casIsOuiNon(String choix, List<String> choixChoisis){
+        if (choix.equals("oui")){
+            if (choixChoisis.size() > 1){
+                if (choixChoisis.get(choixChoisis.size() - 2).equals("Horaires estivaux")){
+                    casIsHorairesEstivaux(choixChoisis);
+                }
+                if (choixChoisis.get(choixChoisis.size()-2).startsWith("ACHAT:") && verifierChoixChoisis(choixChoisis, "Train matinal")){
+                    String[] mots = choixChoisis.get(choixChoisis.size()-2).split(":");
+                    casIsTrainMatinal(mots[1]);
+                }
+            }
+        }
+    }
+
+    public boolean verifierChoixChoisis(List<String> choixChoisis, String nomCarte){
+        int i = 0;
+        boolean check = false;
+        while (i < choixChoisis.size() && !check){
+            if (choixChoisis.get(i).equals(nomCarte)){
+                check = true;
+            }
+            i++;
+        }
+        return check;
+    }
+
+    public void casIsHorairesEstivaux(List<String> choixChoisis){
+        jeu.ecarterCarte(cartesEnJeu.retirer(choixChoisis.get(choixChoisis.size() - 2)));
+        ajouterArgent(3);
+    }
+
+    public void casIsTrainMatinal(String nomCarte){
+        Carte carte = cartesRecues.retirer(nomCarte);
+        pioche.add(0, carte);
+    }
+
+    public void casIsPersonneDeGare(List<String> choixChoisis){
+        switch (choixChoisis.get(choixChoisis.size() - 1)) {
+            case "piocher" -> piocherEtAjouterMain();
+            case "argent" -> argent++;
+            case "ferraille" -> {
+                Carte carte = main.retirer("Ferraille");
+                if (carte!= null) {
+                    main.remove(carte);
+                    jeu.ajouterReserve(carte);
+                } else {
+                    log("Vous n'avez pas de carte ferraille dans votre main");
+                }
+            }
+            default ->
+                    log("choisissez entre piocher une carte (taper piocher), gagner une pièce (taper argent), remettre une carte ferraille dans la pioche (taper ferraille)");
+        }
+    }
+
+    public boolean casIsPeutEtreDepot(Carte carte, List<String> choixChoisis){
+        boolean check = false;
+        if (choixChoisis.get(choixChoisis.size()-2).equals("Dépôt")){
+            defausse.add(carte);
+            main.remove(carte);
+            check = true;
+        }
+        else if (choixChoisis.size() > 2){
+            if (choixChoisis.get(choixChoisis.size()-3).equals("Dépôt")){
+                defausse.add(carte);
+                main.remove(carte);
+                check = true;
+            }
+        }
+        return check;
     }
 
     /**
@@ -547,6 +594,10 @@ public class Joueur {
 
     public void ajouterPointScoreTotal(int n){
         this.nbPointsCourants += n;
+    }
+
+    public void ajouterCartesRecues(Carte carte){
+        this.cartesRecues.add(carte);
     }
 
     /*
