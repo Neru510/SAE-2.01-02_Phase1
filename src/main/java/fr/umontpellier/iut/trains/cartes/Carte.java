@@ -12,6 +12,7 @@ public abstract class Carte {
     private int nbPrestige = 0;
 
     private boolean ferraille = false;
+    private boolean action = false;
 
     /**
      * Constructeur simple
@@ -118,5 +119,13 @@ public abstract class Carte {
 
     public void setFeraille(boolean ferraille){
         this.ferraille=ferraille;
+    }
+
+    public boolean isAction(){
+        return action;
+    }
+
+    public void setAction(boolean action){
+        this.action = action;
     }
 }
