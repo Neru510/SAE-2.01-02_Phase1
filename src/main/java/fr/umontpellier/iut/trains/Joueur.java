@@ -359,24 +359,21 @@ public class Joueur {
                 casIsBureauDuChefDeGare(choix);
             }
             else {
-                // jouer une carte de la main
-                Carte carte = main.retirer(choix);
                 boolean check = false;
                 if (choixChoisis.size() > 1){
-                    check = casIsPeutEtreDepot(carte, choixChoisis);
+                    check = casIsPeutEtreDepot(choix, choixChoisis);
                 }
-                if (!check) {
-                    int size = cartesRecues.size();
-                    log("Joue " + carte); // affichage dans le log
-                    cartesEnJeu.add(carte); // mettre la carte en jeu
-                    carte.jouer(this);  // exécuter l'action de la carte
-                    if (size < cartesRecues.size()){
-                        if (cartesRecues.get(cartesRecues.size()-1).getNom().equals("Ferraille")){
-                            jeu.ajouterReserve(cartesRecues.get(cartesRecues.size()-1));
-                            cartesRecues.remove(cartesRecues.get(cartesRecues.size()-1));
-                        }
+                if (!check){
+                    Carte carte = main.retirer(choix);
+                    if (carte != null){
+                        log("Joue " + carte); // affichage dans le log
+                        cartesEnJeu.add(carte); // mettre la carte en jeu
+                        carte.jouer(this);  // exécuter l'action de la carte
                     }
                 }
+                // jouer une carte de la main
+
+
                 if (choix.equals("Dépotoir")){
                     ferraille = true;
                 }
@@ -470,20 +467,21 @@ public class Joueur {
         }
     }
 
-    public boolean casIsPeutEtreDepot(Carte carte, List<String> choixChoisis){
+    public boolean casIsPeutEtreDepot(String nomcarte, List<String> choixChoisis){
         boolean check = false;
         if (choixChoisis.get(choixChoisis.size()-2).equals("Dépôt")){
-            check = casIsDepot(carte);
+            check = casIsDepot(nomcarte);
         }
         else if (choixChoisis.size() > 2){
             if (choixChoisis.get(choixChoisis.size()-3).equals("Dépôt")){
-                check = casIsDepot(carte);
+                check = casIsDepot(nomcarte);
             }
         }
         return check;
     }
 
-    public boolean casIsDepot(Carte carte){
+    public boolean casIsDepot(String nomcarte){
+        Carte carte = main.retirer(nomcarte);
         defausse.add(carte);
         main.remove(carte);
         return true;
