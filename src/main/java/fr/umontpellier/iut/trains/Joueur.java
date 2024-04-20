@@ -306,11 +306,40 @@ public class Joueur {
         while (!finTour) {
             List<String> choixPossibles = new ArrayList<>();
 
+            boolean pasDAutreCartes = false;
+
             // À FAIRE: préparer la liste des choix possibles
-            for (Carte c: main) {
-                // ajoute les noms de toutes les cartes en main
-                choixPossibles.add(c.getNom());
+            if (!choixChoisis.isEmpty() && choixChoisis.get(choixChoisis.size()-1).equals("Parc d'attractions")){
+                for (Carte c: cartesEnJeu) {
+                    // ajoute les noms de toutes les cartes en main
+                    if (c.getType().equals("Train")){
+                        choixPossibles.add(c.getNom());
+                    }
+                }
             }
+            else if (!choixChoisis.isEmpty() && choixChoisis.get(choixChoisis.size()-1).equals("Bureau du chef de gare")){
+                for (Carte c: main) {
+                    // ajoute les noms de toutes les cartes en main
+                    if (c.getType().equals("Action")){
+                        choixPossibles.add(c.getNom());
+                    }
+                }
+            }
+            else if (!choixChoisis.isEmpty() && choixChoisis.get(choixChoisis.size()-1).equals("Échangeur")){
+                for (Carte c: cartesEnJeu) {
+                    // ajoute les noms de toutes les cartes en main
+                    if (c.getType().equals("Train")){
+                        choixPossibles.add(c.getNom());
+                    }
+                }
+            }
+            if (choixPossibles.isEmpty()){
+                for (Carte c: main) {
+                    // ajoute les noms de toutes les cartes en main
+                    choixPossibles.add(c.getNom());
+                }
+            }
+
             for (String nomCarte: jeu.getReserve().keySet()) {
                 // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
                 choixPossibles.add("ACHAT:" + nomCarte);
@@ -358,6 +387,12 @@ public class Joueur {
             else if (choixChoisis.size() > 1 && choixChoisis.get(choixChoisis.size()-2).equals("Bureau du chef de gare")){
                 casIsBureauDuChefDeGare(choix);
             }
+            else if (choixChoisis.size() > 1 && choixChoisis.get(choixChoisis.size()-2).equals("Parc d'attractions")){
+                casIsParcDAttraction(choix);
+            }
+            else if (choixChoisis.size() > 1 && choixChoisis.get(choixChoisis.size()-2).equals("Échangeur")){
+                casIsEchangeur(choix);
+            }
             else {
                 boolean check = false;
                 if (choixChoisis.size() > 1){
@@ -371,8 +406,6 @@ public class Joueur {
                         carte.jouer(this);  // exécuter l'action de la carte
                     }
                 }
-                // jouer une carte de la main
-
 
                 if (choix.equals("Dépotoir")){
                     ferraille = true;
@@ -393,18 +426,32 @@ public class Joueur {
         main.addAll(piocher(5)); // piocher 5 cartes en main
     }
 
+    public void casIsEchangeur(String choix){
+        Carte c = cartesEnJeu.getCarte(choix);
+        if (c != null && c.getType().equals("Train")){
+            c = cartesEnJeu.retirer(choix);
+            pioche.add(0,c);
+        }
+    }
+    public void casIsParcDAttraction(String choix){
+        Carte carte = cartesEnJeu.getCarte(choix);
+        if (carte != null && carte.getType().equals("Train")){
+            argent += carte.getvaleur();
+        }
+    }
+
     public void casIsBureauDuChefDeGare(String choix){
         Carte carte = main.getCarte(choix);
-        if (carte.isAction()){
+        if (carte != null && carte.getType().equals("Action")){
             carte.jouer(this);
         }
         else {
-            List<String> choixPossibles = new ArrayList<>();
-            for (Carte c: main) {
-                // ajoute les noms de toutes les cartes en main
-                choixPossibles.add(c.getNom());
+            Carte c = main.retirer(choix);
+            if (c != null){
+                log("Joue " + c); // affichage dans le log
+                cartesEnJeu.add(c); // mettre la carte en jeu
+                c.jouer(this);  // exécuter l'action de la carte
             }
-            choisir("Cette carte n'est pas une carte action. Choisissez une carte action que vous avez en main. Cette carte copie l'effet de la carte choisie.", choixPossibles, null, true);
         }
     }
     public void casIsFeraille(){

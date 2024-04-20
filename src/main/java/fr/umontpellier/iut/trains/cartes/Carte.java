@@ -5,14 +5,11 @@ import fr.umontpellier.iut.trains.Joueur;
 public abstract class Carte {
     private final String nom;
     private final int cout;
-    private int valeur;
-    private String type;
-    private String couleur;
-    private String description;
+    private final int valeur;
+    private final String type;
+    private final String couleur;
     private int nbPrestige = 0;
-
     private boolean ferraille = false;
-    private boolean action = false;
 
     /**
      * Constructeur simple
@@ -47,6 +44,7 @@ public abstract class Carte {
         this.type = type;
         this.couleur = couleur;
         this.cout = 0;
+        this.valeur = 0;
     }
 
     public String getNom() {
@@ -101,13 +99,5 @@ public abstract class Carte {
 
     public void setFeraille(boolean ferraille){
         this.ferraille=ferraille;
-    }
-
-    public boolean isAction(){
-        return action;
-    }
-
-    public void setAction(boolean action){
-        this.action = action;
     }
 }
