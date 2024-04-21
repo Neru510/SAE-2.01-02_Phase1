@@ -88,6 +88,15 @@ public abstract class Carte {
         // On rajoute
     }
 
+    public boolean mainContientCarte(Joueur joueur, String type) {
+        for (Carte carte : joueur.getMain()) {
+            if (carte.getType() == type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return nom;

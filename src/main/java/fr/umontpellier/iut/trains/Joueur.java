@@ -702,6 +702,10 @@ public class Joueur {
         return cartes;
     }
 
+    public void devoilerCarte(Joueur joueur, Carte carte) {
+        log("Le joueur " + joueur.nom + " dévoile la carte : " + carte.toString());
+    }
+
     /*
     public void modifierNbJetonsRails(int i){
         nbJetonsRails = i;
