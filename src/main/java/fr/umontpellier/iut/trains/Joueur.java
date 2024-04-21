@@ -143,6 +143,10 @@ public class Joueur {
         this.main = main;
     }
 
+    public void ajouterCarteAMain(Carte carte) {
+        main.add(carte);
+    }
+
     public void piocherEtAjouterMain(int n){
         List<Carte> main = piocher(n);
         this.main.addAll(main);
@@ -601,9 +605,14 @@ public class Joueur {
         return cartes;
     }
 
-    public void devoilerCarte(Joueur joueur, Carte carte) {
-        log("Le joueur " + joueur.nom + " dévoile la carte : " + carte.toString());
+    public void devoilerCarte(Carte carte) {
+        log("Le joueur " + nom + " dévoile la carte : " + carte.toString());
     }
+
+    public Carte retirerDeLaReserve(String nomCarte) {
+        return jeu.prendreDansLaReserve(nomCarte);
+    }
+
 
     /*
     public void modifierNbJetonsRails(int i){
