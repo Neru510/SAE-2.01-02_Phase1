@@ -22,4 +22,20 @@ public class TuileVille extends Tuile {
     public boolean estPosable(){
         return true;
     }
+
+    public int getNbGaresMax(){
+        return nbGaresMax;
+    }
+
+    @Override
+    public void ajouterGare(){
+        if (nbGaresPosees+1 <= nbGaresMax){
+            nbGaresPosees++;
+        }
+    }
+
+    @Override
+    public int getNbGares(){
+        return nbGaresPosees;
+    }
 }

@@ -32,6 +32,10 @@ public abstract class Tuile {
         return rails.isEmpty();
     }
 
+    public void ajouterGare(){
+
+    }
+
     /**
      * @param joueur le joueur dont on veut déterminer s'il a posé un rail sur la
      *               tuile
@@ -63,6 +67,10 @@ public abstract class Tuile {
     public void ajouterVoisine(Tuile tuile) {
         voisines.add(tuile);
         tuile.voisines.add(this);
+    }
+
+    public ArrayList<Tuile> getVoisines(){
+        return voisines;
     }
 
     /**

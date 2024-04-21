@@ -1,10 +1,12 @@
 package fr.umontpellier.iut.trains;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import fr.umontpellier.iut.trains.cartes.Carte;
 import fr.umontpellier.iut.trains.cartes.FabriqueListeDeCartes;
 import fr.umontpellier.iut.trains.cartes.ListeDeCartes;
+import fr.umontpellier.iut.trains.plateau.Tuile;
 
 public class Joueur {
     /**
@@ -54,7 +56,7 @@ public class Joueur {
      */
     private CouleurJoueur couleur;
     private int nbPointsCourants;
-    private int[] coordonnees;
+    private ArrayList<Tuile> coordonnees;
 
     public Joueur(Jeu jeu, String nom, CouleurJoueur couleur) {
         this.jeu = jeu;
@@ -86,7 +88,7 @@ public class Joueur {
             main.add(pioche.remove(0));
         }
 
-        coordonnees = new int[100];
+        coordonnees = new ArrayList<>();
 
     }
 
@@ -259,7 +261,7 @@ public class Joueur {
 
     public void piocherFeraille(int n){
         for (int i = 0; i < n; i++){
-            Carte carte = jeu.prendreDansLaReserve("Feraille");
+            Carte carte = jeu.prendreDansLaReserve("Ferraille");
             cartesRecues.add(carte);
         }
     }
@@ -364,15 +366,12 @@ public class Joueur {
                 casIsOuiNon(choix, choixChoisis);
             }
             else {
-                boolean check = false;
 
-                if (!check){
-                    Carte carte = main.retirer(choix);
-                    if (carte != null){
-                        log("Joue " + carte); // affichage dans le log
-                        cartesEnJeu.add(carte); // mettre la carte en jeu
-                        carte.jouer(this);  // exécuter l'action de la carte
-                    }
+                Carte carte = main.retirer(choix);
+                if (carte != null){
+                    log("Joue " + carte); // affichage dans le log
+                    cartesEnJeu.add(carte); // mettre la carte en jeu
+                    carte.jouer(this);  // exécuter l'action de la carte
                 }
 
                 if (choix.equals("Dépotoir")){
@@ -534,8 +533,7 @@ public class Joueur {
         String a = choisir(this.nom + " choisit une tuile de départ en cliquant dessus", choix, null, false);
         String [] words = a.split(":");
         if (Integer.parseInt(words[1]) > -1){
-            coordonnees[coordonnees.length-1] = Integer.parseInt(words[1]);
-            coordonnees[coordonnees.length-1] = Integer.parseInt(words[1]);
+            coordonnees.add(jeu.getTuile(Integer.parseInt(words[1])));
         }
     }
 
@@ -589,7 +587,7 @@ public class Joueur {
                 Map.entry("actif", jeu.getJoueurCourant() == this));
     }
 
-    public int[] getCoordonnees(){
+    public ArrayList<Tuile> getCoordonnees(){
         return coordonnees;
     }
 
@@ -603,8 +601,7 @@ public class Joueur {
 
     public List<Carte> prendreCarteDeMain(String nomCarte){
         List<Carte> cartes = new ArrayList<>();
-        List<Carte> main = new ArrayList<>();
-        main.addAll(this.main);
+        List<Carte> main = new ArrayList<>(this.main);
         for (Carte c : main){
             if (c.getNom().equals(nomCarte)){
                 cartes.add(c);
