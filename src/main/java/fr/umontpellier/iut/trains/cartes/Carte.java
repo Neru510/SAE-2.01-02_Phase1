@@ -91,13 +91,26 @@ public abstract class Carte {
         // On rajoute
     }
 
-    public boolean mainContientCarte(Joueur joueur, String type) {
+    public boolean mainContientTypeCarte(Joueur joueur, String type) {
         for (Carte carte : joueur.getMain()) {
             if (carte.getType() == type) {
                 return true;
             }
         }
         return false;
+    }
+
+    public List<String> ListeCartePourTypeContenueDansMain(Joueur joueur, String type) {
+        List<String> resListe = new ArrayList<>();
+        if (mainContientTypeCarte(joueur, type)) {
+            for (Carte c : joueur.getMain()){
+                if (c.getType() == type) {
+                    resListe.add(c.getNom());
+                }
+            }
+            return resListe;
+        }
+        return null;
     }
 
     @Override

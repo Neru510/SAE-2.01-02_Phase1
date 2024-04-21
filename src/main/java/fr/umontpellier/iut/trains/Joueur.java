@@ -618,6 +618,10 @@ public class Joueur {
         log("Le joueur " + nom + " dévoile la carte : " + carte.toString());
     }
 
+    public void message(String texte) {
+        log(texte);
+    }
+
     public Carte retirerDeLaReserve(String nomCarte) {
         return jeu.prendreDansLaReserve(nomCarte);
     }

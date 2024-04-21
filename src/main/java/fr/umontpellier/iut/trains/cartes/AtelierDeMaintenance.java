@@ -13,24 +13,21 @@ public class AtelierDeMaintenance extends Action {
     @Override
     public void jouer(Joueur joueur) {
         super.jouer(joueur);
-        if (mainContientCarte(joueur, "Train")) {
-            joueur.choisir("Dévoilez une carte Train de votre main. Pour recevoir une carte identique à celle dévoilée (s'il en reste dans la réserve).", )
-            ListeDeCartes main, cartesEnJeu, cartesRecues = new ListeDeCartes();
+        if (ListeCartePourTypeContenueDansMain(joueur, "Train") != null) {
+            ListeDeCartes main = new ListeDeCartes();
             main = joueur.getMain();
-            cartesEnJeu = joueur.getCartesEnJeu();
-            cartesRecues = joueur.getCartesRecues();
             List<String> choixPossibles = new ArrayList<>();
             for (Carte c: main) {
-                if (c instanceof Train) {
+                if (c.getType() == "Train") {
                     choixPossibles.add(c.getNom());
                 }
             }
-            String choix = joueur.choisir("Choisisez une carte train de votre mains", choixPossibles, null, false);
-            Carte carte = main.retirer(choix);
-            joueur.setMain(main);
+            String choix = joueur.choisir("Choisissez une carte Train à dévoiler de votre main", choixPossibles, null, false);
+            Carte carte = main.getCarte(choix);
+            joueur.devoilerCarte(carte);
+            Carte res = joueur.retirerDeLaReserve(choix);
+            joueur.ajouterCarteAMain(res);
         }
-
-
+        joueur.message("Vous ne possédez aucune carte Train");
     }
-
 }
