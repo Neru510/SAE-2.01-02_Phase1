@@ -53,20 +53,21 @@ public class CarteTest extends BaseTestClass {
         assertTrue(containsReferencesInOrder(pioche, fondPioche));
         assertTrue(containsReferences(defausse));
         assertTrue(containsReferences(cartesEnJeu, c, poseDeRail, trd1));
-        //assertTrue(containsReferences(cartesRecues, app));
+        assertTrue(containsReferences(cartesRecues, app));
         assertEquals(1, getArgent(joueur));
         assertEquals(1, getPointsRails(joueur));
         assertFalse(containsReference(reserve.get("Appartement"), app));
     }
 
     @Test
-    void test_ferronnerie_simple() {
+    void test_ferronnerie() {
         setupJeu("Ferronnerie");
         initialisation();
 
         Carte c = new Ferronnerie();
         Carte rails = new PoseDeRails();
         Carte fondPioche = new Ferraille();
+        Carte f = reserve.get("Ferraille").get(0);
 
         addAll(main, c, rails);
         addAll(pioche, fondPioche);
@@ -77,9 +78,10 @@ public class CarteTest extends BaseTestClass {
         assertTrue(containsReferencesInOrder(pioche, fondPioche));
         assertTrue(containsReferences(defausse));
         assertTrue(containsReferences(cartesEnJeu, c, rails));
-        assertTrue(containsReferences(cartesRecues));
+        assertTrue(containsReferences(cartesRecues, f));
+        assertFalse(containsReference(reserve.get("Ferraille"), f));
         assertEquals(3, getArgent(joueur));
-        assertEquals(0, getPointsRails(joueur));
+        assertEquals(1, getPointsRails(joueur));
     }
 
 }

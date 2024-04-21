@@ -310,6 +310,7 @@ public class Joueur {
         boolean finTour = false;
         List<String> choixChoisis = new ArrayList<>();
         boolean ferraille = false;
+        boolean rails = false;
         // Boucle principale
         while (!finTour) {
             List<String> choixPossibles = new ArrayList<>();
@@ -377,6 +378,9 @@ public class Joueur {
                 if (choix.equals("Dépotoir")){
                     ferraille = true;
                 }
+                if (choix.equals("Ferronnerie")){
+                    rails = true;
+                }
 
             }
             if (ferraille && !choix.equals("Dépotoir") && cartesRecues.size() > size){
@@ -387,6 +391,11 @@ public class Joueur {
                         cartesRecues.remove(cartesRecues.get(cartesRecues.size() - i));
                     }
                 }
+            }
+
+
+            if (rails && !choix.equals("Ferronnerie") && cartesEnJeu.get(choix)!=null && cartesEnJeu.get(choix).getType().equals("Rail")){
+                argent += 2;
             }
         }
         // Finalisation
