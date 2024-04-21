@@ -59,4 +59,27 @@ public class CarteTest extends BaseTestClass {
         assertFalse(containsReference(reserve.get("Appartement"), app));
     }
 
+    @Test
+    void test_ferronnerie_simple() {
+        setupJeu("Ferronnerie");
+        initialisation();
+
+        Carte c = new Ferronnerie();
+        Carte rails = new PoseDeRails();
+        Carte fondPioche = new Ferraille();
+
+        addAll(main, c, rails);
+        addAll(pioche, fondPioche);
+
+        jouerTourPartiel("Ferronnerie", "Pose de rails");
+
+        assertTrue(containsReferences(main));
+        assertTrue(containsReferencesInOrder(pioche, fondPioche));
+        assertTrue(containsReferences(defausse));
+        assertTrue(containsReferences(cartesEnJeu, c, rails));
+        assertTrue(containsReferences(cartesRecues));
+        assertEquals(3, getArgent(joueur));
+        assertEquals(0, getPointsRails(joueur));
+    }
+
 }
