@@ -141,6 +141,10 @@ public class Joueur {
         argent += n;
     }
 
+    public void ajouterAuDessusDeLaPioche(Carte carte){
+        pioche.add(0, carte);
+    }
+
     public void setMain(ListeDeCartes main) {
         this.main = main;
     }
@@ -617,6 +621,10 @@ public class Joueur {
 
     public void message(String texte) {
         log(texte);
+    }
+
+    public String lireLigne() {
+        return jeu.lireLigne();
     }
 
     public Carte retirerDeLaReserve(String nomCarte) {
