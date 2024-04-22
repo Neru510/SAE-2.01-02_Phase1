@@ -18,7 +18,7 @@ public class AtelierDeMaintenance extends Action {
             main = joueur.getMain();
             List<String> choixPossibles = new ArrayList<>();
             for (Carte c: main) {
-                if (c.getType() == "Train") {
+                if (c.getType().equals("Train")) {
                     choixPossibles.add(c.getNom());
                 }
             }
