@@ -1,6 +1,5 @@
 package fr.umontpellier.iut.trains;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import fr.umontpellier.iut.trains.cartes.Carte;
@@ -149,7 +148,7 @@ public class Joueur {
         this.main = main;
     }
 
-    public void ajouterCarteAMain(Carte carte) {
+    public void ajouterMain(Carte carte) {
         main.add(carte);
     }
 

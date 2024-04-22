@@ -15,7 +15,7 @@ public class CentreDeControle extends Action {
         Carte premiereCartePioche = joueur.getPioche().get(0);
         joueur.devoilerCarte(premiereCartePioche);
         if (premiereCartePioche.getNom().equals(nomCarte)) {
-            joueur.ajouterCarteAMain(premiereCartePioche);
+            joueur.ajouterMain(premiereCartePioche);
         } else {
             joueur.ajouterAuDessusDeLaPioche(premiereCartePioche);
         }
