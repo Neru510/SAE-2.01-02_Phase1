@@ -12,7 +12,6 @@ public class ParcDAttractions extends Action {
     @Override
     public void jouer(Joueur joueur){
         super.jouer(joueur);
-        joueur.log("Recevez X pièces. X est égal à la valeur de vente d'une de vos cartes train en jeu.");
         List<String> choixPossibles = new ArrayList<>();
 
         for (Carte c: joueur.getCartesEnJeu()) {

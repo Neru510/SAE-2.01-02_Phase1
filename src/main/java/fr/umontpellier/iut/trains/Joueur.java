@@ -171,6 +171,19 @@ public class Joueur {
         defausse.addAll(cartes);
     }
 
+    public ListeDeCartes getDefausse(){
+        return defausse;
+    }
+
+    public void prendreDefausseEtAjouterMain(String nomCarte){
+        for (Carte c : defausse){
+            if (c.getNom().equals(nomCarte)){
+                main.add(c);
+                defausse.remove(c);
+            }
+        }
+    }
+
     public void setCartesEnJeu(ListeDeCartes cartesEnJeu) {
         this.cartesEnJeu = cartesEnJeu;
     }

@@ -84,4 +84,29 @@ public class CarteTest extends BaseTestClass {
         assertEquals(1, getPointsRails(joueur));
     }
 
+    @Test
+    void test_train_postal() {
+        setupJeu("Train postal");
+        initialisation();
+
+        Carte c = new TrainPostal();
+        Carte fondPioche = new Ferraille();
+        Carte gare = new Gare();
+        Carte imm = new Immeuble();
+        Carte imm2 = new Immeuble();
+
+        addAll(main, c, imm, imm2, gare);
+        addAll(pioche, fondPioche);
+
+        jouerTourPartiel("Train postal", "Immeuble", "Immeuble", "");
+
+        assertTrue(containsReferences(main, gare));
+        assertTrue(containsReferencesInOrder(pioche, fondPioche));
+        assertTrue(containsReferences(defausse, imm, imm2));
+        assertTrue(containsReferences(cartesEnJeu, c));
+        assertTrue(containsReferences(cartesRecues));
+        assertEquals(3, getArgent(joueur));
+        assertEquals(0, getPointsRails(joueur));
+    }
+
 }
