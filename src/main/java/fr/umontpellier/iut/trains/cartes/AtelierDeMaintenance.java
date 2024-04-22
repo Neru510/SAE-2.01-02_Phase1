@@ -26,8 +26,8 @@ public class AtelierDeMaintenance extends Action {
             Carte carte = main.getCarte(choix);
             joueur.devoilerCarte(carte);
             Carte res = joueur.retirerDeLaReserve(choix);
-            joueur.ajouterCarteAMain(res);
+            joueur.ajouterCartesRecues(res);
         }
-        joueur.message("Vous ne possédez aucune carte Train");
+        else joueur.message("Vous ne possédez aucune carte Train");
     }
 }
