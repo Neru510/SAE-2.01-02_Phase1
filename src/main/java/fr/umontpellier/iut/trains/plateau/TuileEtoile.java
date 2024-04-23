@@ -17,4 +17,14 @@ public class TuileEtoile extends Tuile {
     public boolean estPosable(){
         return false;
     }
+
+    @Override
+    public int surCout() {
+        return valeur;
+    }
+
+    @Override
+    public String getType() {
+        return "Etoile";
+    }
 }

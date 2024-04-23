@@ -7,6 +7,7 @@ import fr.umontpellier.iut.trains.plateau.Tuile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Gare extends Carte {
     public Gare() {
@@ -42,7 +43,7 @@ public class Gare extends Carte {
             }
         }
 
-        String choix = joueur.choisir("Choisit une tuile sur laquelle mettre ta gare", choixPossibles, null, false);
+        String choix = joueur.choisir("Choisit une tuile sur laquelle mettre ta gare", choixPossibles, null, true);
         String [] words = choix.split(":");
         int index;
         index = Integer.parseInt(words[1]);

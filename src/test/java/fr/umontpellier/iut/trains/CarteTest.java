@@ -109,4 +109,58 @@ public class CarteTest extends BaseTestClass {
         assertEquals(0, getPointsRails(joueur));
     }
 
+    @Test
+    void test_pose_de_rails_surcout_plaine(){
+        setupJeu("Pose de rails");
+        initialisation();
+
+        Carte c = new PoseDeRails();
+        Carte fondPioche = new Ferraille();
+        Carte f = reserve.get("Ferraille").get(0);
+
+        addAll(main, c);
+        addAll(pioche, fondPioche);
+
+        jouerTourPartiel("Pose de rails", "TUILE:20");
+
+        assertTrue(containsReferences(main));
+        assertTrue(containsReferencesInOrder(pioche, fondPioche));
+        assertTrue(containsReferences(defausse));
+        assertTrue(containsReferences(cartesEnJeu, c));
+        assertTrue(containsReferences(cartesRecues, f));
+        assertFalse(containsReference(reserve.get("Ferraille"), f));
+        assertEquals(0, getArgent(joueur));
+        assertEquals(1, getPointsRails(joueur));
+    }
+
+    @Test
+    void test_pose_de_rails_surcout_riviere(){
+
+    }
+
+    @Test
+    void test_pose_de_rails_surcout_montagne(){
+
+    }
+
+    @Test
+    void test_pose_de_rails_surcout_ville(){
+
+    }
+
+    @Test
+    void test_pose_de_rails_surcout_lieu_eloigné(){
+
+    }
+
+    @Test
+    void test_pose_de_rails_surcout_autres_jetons_joueurs(){
+
+    }
+
+    @Test
+    void test_pose_de_rails_surcout_mer(){
+
+    }
+
 }

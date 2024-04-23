@@ -11,4 +11,19 @@ public class TuileMer extends Tuile {
     public boolean estPosable(){
         return false;
     }
+
+    @Override
+    public boolean estConstructible() {
+        return false;
+    }
+
+    @Override
+    public int surCout() {
+        return 0;
+    }
+
+    @Override
+    public String getType() {
+        return "Mer";
+    }
 }

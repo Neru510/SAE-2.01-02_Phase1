@@ -224,8 +224,8 @@ public class Jeu implements Runnable {
         }
         for (Joueur j : joueurs){
             //faire joueur choisir position
-            j.choisirPosition(choix);
-            j.jouerTour();
+            Tuile t = j.choisirPosition(choix);
+            t.ajouterRail(j);
         }
 
 
@@ -247,8 +247,8 @@ public class Jeu implements Runnable {
      * @return {@code true} si la partie est finie, {@code false} sinon
      */
     public boolean estFini() {
-        for (int i = 0; i < joueurs.size(); i++){ // vérifie si un des joueurs a posé tous ses jetons Rail sur le plateau
-            if (joueurs.get(i).getNbJetonsRails() == 0){
+        for (Joueur joueur : joueurs) { // vérifie si un des joueurs a posé tous ses jetons Rail sur le plateau
+            if (joueur.getNbJetonsRails() == 0) {
                 return true;
             }
         }
@@ -260,15 +260,14 @@ public class Jeu implements Runnable {
         int check = 0;
 
         for (String carte : reserve.keySet()){
-            int a = reserve.get(carte).size();
-            if (a == 0){
+            if (!carte.equals("Ferraille") && reserve.get(carte).isEmpty()){
                 check++;
             }
+
             if (check >= 4) {
                 return true;
             }
         }
-
 
         return false;
     }

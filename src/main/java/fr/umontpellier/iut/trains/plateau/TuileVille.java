@@ -23,6 +23,16 @@ public class TuileVille extends Tuile {
         return true;
     }
 
+    @Override
+    public int surCout() {
+        return 1 + nbGaresPosees;
+    }
+
+    @Override
+    public String getType() {
+        return "Ville";
+    }
+
     public int getNbGaresMax(){
         return nbGaresMax;
     }

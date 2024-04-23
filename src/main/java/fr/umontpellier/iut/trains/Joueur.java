@@ -286,6 +286,10 @@ public class Joueur {
         main.remove(carte);
     }
 
+    public void ajouterCoordonnees(Tuile t){
+        coordonnees.add(t);
+    }
+
     /**
      * Joue un tour complet du joueur
      * <p>
@@ -327,8 +331,15 @@ public class Joueur {
 
         boolean finTour = false;
         List<String> choixChoisis = new ArrayList<>();
+
         boolean ferraille = false;
         boolean rails = false;
+        boolean enleveSurcout = false;
+        boolean enleveSurcoutMontagne = false;
+        boolean enleveSurcoutVille = false;
+        boolean enleveSurcoutRiviere = false;
+        boolean surcoutJoueurs = false;
+
         // Boucle principale
         while (!finTour) {
             List<String> choixPossibles = new ArrayList<>();
@@ -348,6 +359,7 @@ public class Joueur {
 
             choixPossibles.add("oui");
             choixPossibles.add("non");
+            choixPossibles.add("");
             int size = cartesRecues.size();
 
             // Choix de l'action à réaliser
@@ -369,7 +381,7 @@ public class Joueur {
                 }
                 else {
                     assert carte != null;
-                    int i = (argent - carte.getCout());
+                    int i = (carte.getCout() - argent);
                     String cost = String.valueOf(i);
                     log("Pas assez d'argent, il manque " + cost);
                     choixChoisis.remove(choixChoisis.size()-1);
@@ -384,7 +396,12 @@ public class Joueur {
             else {
 
                 Carte carte = main.retirer(choix);
-                if (carte != null){
+                if (carte != null && Objects.equals(carte.getType(), "Rail")){
+                    log("Joue " + carte); // affichage dans le log
+                    cartesEnJeu.add(carte); // mettre la carte en jeu
+                    carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere);  // exécuter l'action de la carte
+                }
+                else if (carte != null){
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     carte.jouer(this);  // exécuter l'action de la carte
@@ -393,8 +410,20 @@ public class Joueur {
                 if (choix.equals("Dépotoir")){
                     ferraille = true;
                 }
-                if (choix.equals("Ferronnerie")){
+                else if (choix.equals("Ferronnerie")){
                     rails = true;
+                }
+                else if (choix.equals("Voie souterraine")){
+                    enleveSurcout = true;
+                }
+                else if (choix.equals("Tunnel")){
+                    enleveSurcoutMontagne = true;
+                }
+                else if (choix.equals("Viaduc")){
+                    enleveSurcoutVille = true;
+                }
+                else if (choix.equals("Pont en acier")){
+                    enleveSurcoutRiviere = true;
                 }
 
             }
@@ -422,7 +451,7 @@ public class Joueur {
         cartesRecues.clear();
         defausse.addAll(cartesEnJeu);
         cartesEnJeu.clear();
-
+        argent = 0;
         main.addAll(piocher(5)); // piocher 5 cartes en main
     }
 
@@ -545,12 +574,13 @@ public class Joueur {
         }
     }
 
-    public void choisirPosition(Collection<String> choix){
+    public Tuile choisirPosition(Collection<String> choix){
         String a = choisir(this.nom + " choisit une tuile de départ en cliquant dessus", choix, null, false);
         String [] words = a.split(":");
         if (Integer.parseInt(words[1]) > -1){
             coordonnees.add(jeu.getTuile(Integer.parseInt(words[1])));
         }
+        return jeu.getTuile(Integer.parseInt(words[1]));
     }
 
     /**

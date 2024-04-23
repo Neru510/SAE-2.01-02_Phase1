@@ -17,4 +17,30 @@ public class TuileTerrain extends Tuile {
     public boolean estPosable(){
         return true;
     }
+
+    @Override
+    public int surCout() {
+        if (type == TypeTerrain.PLAINE){
+            return 0;
+        }
+        else if (type == TypeTerrain.MONTAGNE){
+            return 2;
+        }
+        else { // type = fleuve
+            return 1;
+        }
+    }
+
+    @Override
+    public String getType() {
+        if (type == TypeTerrain.PLAINE){
+            return "Plaine";
+        }
+        else if (type == TypeTerrain.MONTAGNE){
+            return "Montagne";
+        }
+        else { // type = fleuve
+            return "Fleuve";
+        }
+    }
 }

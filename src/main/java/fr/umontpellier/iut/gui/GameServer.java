@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.websocket.DeploymentException;
 import javax.websocket.Session;
 
+import fr.umontpellier.iut.trains.cartes.Carte;
 import org.glassfish.tyrus.server.Server;
 
 import com.sun.net.httpserver.HttpServer;
@@ -37,7 +38,7 @@ public class GameServer {
         String[] nomsJoueurs = { "Guybrush", "Largo" };
 
         // Liste des cartes à utiliser :
-        String[] nomsCartes = {"Aiguillage", "Passage en gare", "Salle de contrôle"};
+        String[] nomsCartes = {"Aiguillage", "Atelier de maintenance", "Bureau du chef de gare", "Cabine du conducteur", "Centre de contrôle", "Centre de renseignements", "Décharge", "Dépôt", "Dépotoir", "Échangeur", "Ferronnerie", "Feu de signalisation", "Horaires estivaux", "Horaires temporaires", "Parc d'attractions", "Passage en gare", "Personnel de gare", "Remorquage", "Salle de contrôle", "Usine de wagons"};
 
         // On peut aussi choisir de tirer aléatoirement 8 cartes préparation
         // List<String> cartesPreparation = new ArrayList<>(FabriqueListeDeCartes.getNomsCartesPreparation());

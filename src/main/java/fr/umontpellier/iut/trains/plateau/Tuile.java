@@ -20,9 +20,12 @@ public abstract class Tuile {
      */
     private Set<Joueur> rails;
 
+    private int nbRails;
+
     public Tuile() {
         this.voisines = new ArrayList<>();
         this.rails = new HashSet<>();
+        nbRails = 0;
     }
 
     /**
@@ -52,7 +55,9 @@ public abstract class Tuile {
      * @param joueur le joueur qui pose un rail sur la tuile
      */
     public void ajouterRail(Joueur joueur) {
+        joueur.ajouterNbJetonsRails(-1);
         rails.add(joueur);
+        nbRails++;
     }
 
     /**
@@ -113,4 +118,16 @@ public abstract class Tuile {
     }
 
     public abstract boolean estPosable();
+
+    public boolean estConstructible(){
+        return true;
+    };
+
+    public abstract int surCout();
+
+    public abstract String getType();
+
+    public int getNbRails(){
+        return nbRails;
+    }
 }

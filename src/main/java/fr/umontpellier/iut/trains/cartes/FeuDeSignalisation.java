@@ -17,7 +17,7 @@ public class FeuDeSignalisation extends Action {
         joueur.piocherEtAjouterMain();
         List<String> choixPossibles = choixOuiNon();
         List<Bouton> boutonList = choixOuiNonBouton();
-        String choix = joueur.choisir("Consultez la première carte de votre deck. Défaussez-la ou replacez-la sur le dessus de votre deck.", choixPossibles, null, false);
+        String choix = joueur.choisir("Consultez la première carte de votre deck. Défaussez-la ou replacez-la sur le dessus de votre deck.", choixPossibles, boutonList, true);
         if (choix.equals("oui")){
             Carte c = joueur.piocher();
             joueur.defausser(c);

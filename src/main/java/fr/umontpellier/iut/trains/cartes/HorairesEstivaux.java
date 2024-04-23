@@ -16,7 +16,7 @@ public class HorairesEstivaux extends Action {
         super.jouer(joueur);
         List<String> choixPossibles = choixOuiNon();
         List<Bouton> boutonList = choixOuiNonBouton();
-        String choix = joueur.choisir("Vous pouvez écarter cette carte. Dans ce cas, recevez 3 pièces.", choixPossibles, null, false);
+        String choix = joueur.choisir("Vous pouvez écarter cette carte. Dans ce cas, recevez 3 pièces.", choixPossibles, boutonList, true);
         if (choix.equals("oui")){
             joueur.getJeu().ecarterCarte(joueur.getCartesEnJeu().retirer(this.getNom()));
             joueur.ajouterArgent(3);
