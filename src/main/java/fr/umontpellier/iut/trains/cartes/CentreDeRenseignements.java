@@ -42,6 +42,7 @@ public class CentreDeRenseignements extends Action {
         } else joueur.message("Aucune carte ajouter a votre main");
 
         for (int a = 0; a < devoiler.size();) {
+            boutons.clear();
             for (Carte c : devoiler) {
                 boutons.add(new Bouton(c.getNom(), c.getNom()));
                 i++;
