@@ -23,10 +23,10 @@ public class CentreDeControle extends Action {
         joueur.devoilerCarte(premiereCartePioche);
 
         if (premiereCartePioche.getNom().equals(nomCarte)) {
-            joueur.message("Gagné");
+            joueur.message("Gagné, vous garder la carte");
             joueur.piocherEtAjouterMain();
         } else {
-            joueur.message("Perdu");
+            joueur.message("Perdu, vous la remettez au dessus du paquet");
         }
     }
 }
