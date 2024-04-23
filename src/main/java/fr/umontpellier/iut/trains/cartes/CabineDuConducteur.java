@@ -23,7 +23,7 @@ public class CabineDuConducteur extends Action {
         }
         while (finit) {
             String choix = joueur.choisir("Choisissez les carte à défaussez vous avez en main et envoyer un champ vide pour finir", choixPossibles, null, true);
-            if (!(choix.equals(""))){
+            if (main.getCarte(choix) != null){
                 i++;
                 Carte res = main.retirer(choix);
                 joueur.defausser(res);

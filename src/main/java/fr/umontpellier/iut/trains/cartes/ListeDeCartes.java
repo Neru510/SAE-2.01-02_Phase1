@@ -39,13 +39,6 @@ public class ListeDeCartes extends ArrayList<Carte> {
         return null;
     }
 
-    public Carte get(String nomCarte){
-        for (Carte c : this)
-            if (c.getNom().equals(nomCarte)) {
-                return c;
-            }
-        return null;
-    }
 
     /**
      * Renvoie une carte de la liste dont le nom est égal à l'argument (la carte

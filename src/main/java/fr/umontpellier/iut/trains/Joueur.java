@@ -438,7 +438,7 @@ public class Joueur {
             }
 
 
-            if (rails && !choix.equals("Ferronnerie") && cartesEnJeu.get(choix)!=null && cartesEnJeu.get(choix).getType().equals("Rail")){
+            if (rails && !choix.equals("Ferronnerie") && cartesEnJeu.getCarte(choix)!=null && cartesEnJeu.getCarte(choix).getType().equals("Rail")){
                 argent += 2;
             }
         }
@@ -659,6 +659,10 @@ public class Joueur {
 
     public void devoilerCarte(Carte carte) {
         log("Le joueur " + nom + " dévoile la carte : " + carte.toString());
+    }
+
+    public void devoilerCartes(ListeDeCartes cartes) {
+        log("Le joueur " + nom + " dévoile les cartes : " + cartes.toString());
     }
 
     public void message(String texte) {
