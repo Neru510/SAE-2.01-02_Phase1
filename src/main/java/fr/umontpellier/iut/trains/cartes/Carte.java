@@ -93,7 +93,7 @@ public abstract class Carte {
 
     public boolean mainContientTypeCarte(Joueur joueur, String type) {
         for (Carte carte : joueur.getMain()) {
-            if (carte.getType() == type) {
+            if (Objects.equals(carte.getType(), type)) {
                 return true;
             }
         }
@@ -104,7 +104,7 @@ public abstract class Carte {
         List<String> resListe = new ArrayList<>();
         if (mainContientTypeCarte(joueur, type)) {
             for (Carte c : joueur.getMain()){
-                if (c.getType() == type) {
+                if (Objects.equals(c.getType(), type)) {
                     resListe.add(c.getNom());
                 }
             }
