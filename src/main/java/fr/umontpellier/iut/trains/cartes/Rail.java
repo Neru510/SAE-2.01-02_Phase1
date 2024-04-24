@@ -18,8 +18,10 @@ public abstract class Rail extends Carte{
     @Override
     public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs) {
         super.jouer(joueur);
-        Carte carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
-        joueur.ajouterCartesRecues(carte);
+        if (!enleveSurcoutJoueurs){
+            Carte carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
+            joueur.ajouterCartesRecues(carte);
+        }
         joueur.ajouterPointsRails(1);
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
@@ -68,23 +70,33 @@ public abstract class Rail extends Carte{
                 if (enleveSurcout){ // enlève le surcout total
                     check = true;
                 }
-                else if (!(Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || !(Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || !(Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
-                    surcout += t.surCout();
-                }
+                else if (enleveSurcoutJoueurs && (Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
 
-                if (!enleveSurcoutJoueurs){
+                }
+                else if ((Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
                     surcout += t.getNbRails();
+                }
+                else if (enleveSurcoutJoueurs){
+                    surcout += t.surCout();
+                    surcout += t.getNbGares();
+                }
+                else {
+                    surcout += t.getNbRails() + t.surCout() + t.getNbGares();;
                 }
 
                 if (surcout <= joueur.getArgent()){
                     joueur.ajouterArgent(-surcout);
-                    check =true;
+                    check = true;
+                }
+                else {
+                    int a = surcout - joueur.getArgent();
+                    joueur.message("Il manque " + a + " pièces");
                 }
             }
             assert t != null;
             t.ajouterRail(joueur);
             if (t.getType().equals("Étoile")){
-                joueur.ajouterPointsRails(1);
+                joueur.ajouterPointScoreTotal(1);
             }
             joueur.ajouterCoordonnees(t);
         }

@@ -226,7 +226,7 @@ public class Joueur {
         for (Carte c : main){
             somme += c.getNbPrestige();
         }
-        somme += pointsRails;
+        //somme += pointsRails;
         somme += nbPointsCourants;
         return somme;
     }
