@@ -26,18 +26,22 @@ public class Gare extends Carte {
         for (Tuile t : tuiles) {
             tuilesVoisines = t.getVoisines();
         }
-        tuiles.addAll(tuilesVoisines);
-        for (Tuile t : tuiles){
-            if (t.estPosable() && t.hasRail(joueur)){
-                tuilesPosables.add(t);
+        //assert tuilesVoisines != null;
+        if (tuilesVoisines != null){
+            tuiles.addAll(tuilesVoisines);
+            for (Tuile t : tuiles){
+                if (t.estPosable() && t.hasRail(joueur)){
+                    tuilesPosables.add(t);
+                }
+            }
+
+            for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++) {
+                if (tuilesPosables.contains(joueur.getJeu().getTuiles().get(i))) {
+                    choixPossibles.add("TUILE:" + i);
+                }
             }
         }
 
-        for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++) {
-            if (tuilesPosables.contains(joueur.getJeu().getTuiles().get(i))) {
-                choixPossibles.add("TUILE:" + i);
-            }
-        }
 
         if (tuiles.isEmpty()) { // alors c'est un test :c
             for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++) {

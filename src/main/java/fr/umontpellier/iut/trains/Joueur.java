@@ -156,7 +156,9 @@ public class Joueur {
 
     public void piocherEtAjouterMain(int n){
         List<Carte> main = piocher(n);
-        this.main.addAll(main);
+        if (!main.isEmpty()){
+            this.main.addAll(main);
+        }
     }
 
     public void piocherEtAjouterMain(){
@@ -411,10 +413,26 @@ public class Joueur {
 
                 Carte carte = main.retirer(choix);
                 if (carte != null && Objects.equals(carte.getType(), "Rail")){
+                    if (choix.equals("Voie souterraine")){
+                        enleveSurcout = true;
+                    }
+                    else if (choix.equals("Tunnel")){
+                        enleveSurcoutMontagne = true;
+                    }
+                    else if (choix.equals("Viaduc")){
+                        enleveSurcoutVille = true;
+                    }
+                    else if (choix.equals("Pont en acier")){
+                        enleveSurcoutRiviere = true;
+                    }
+                    else if (choix.equals("Coopération")){
+                        enleveSurcoutJoueurs = true;
+                    }
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     if (rails) argent +=2;
                     carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs);  // exécuter l'action de la carte
+
                 }
                 else if (carte != null){
                     log("Joue " + carte); // affichage dans le log
@@ -428,21 +446,7 @@ public class Joueur {
                 else if (choix.equals("Ferronnerie")){
                     rails = true;
                 }
-                else if (choix.equals("Voie souterraine")){
-                    enleveSurcout = true;
-                }
-                else if (choix.equals("Tunnel")){
-                    enleveSurcoutMontagne = true;
-                }
-                else if (choix.equals("Viaduc")){
-                    enleveSurcoutVille = true;
-                }
-                else if (choix.equals("Pont en acier")){
-                    enleveSurcoutRiviere = true;
-                }
-                else if (choix.equals("Coopération")){
-                    enleveSurcoutJoueurs = true;
-                }
+
 
             }
             if (ferraille && !choix.equals("Dépotoir") && cartesRecues.size() > size){

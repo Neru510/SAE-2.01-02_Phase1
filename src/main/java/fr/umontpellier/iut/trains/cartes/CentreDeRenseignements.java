@@ -37,19 +37,21 @@ public class CentreDeRenseignements extends Action {
             joueur.ajouterMain(carte);
             devoiler.retirer(carte.getNom());
             joueur.message("Carte " + carte.getNom() + " ajoutée à votre main");
-        } else joueur.message("Aucune carte à ajouter à votre main");
 
-        for (Carte c : devoiler) {
-            boutons.add(new Bouton(c.getNom(), c.getNom()));
-        }
+            for (Carte c : devoiler) {
+                boutons.add(new Bouton(c.getNom(), c.getNom()));
+            }
 
-        while(!devoiler.isEmpty()) {
-
-            joueur.devoilerCartes(devoiler);
-
-            choix = joueur.choisir("Choisissez les cartes dans l'ordre à remettre sur la pioche", null, boutons, false);
-            Carte c = devoiler.retirer(choix);
-            joueur.ajouterAuDessusDeLaPioche(c);
+            while(!devoiler.isEmpty()) {
+                joueur.devoilerCartes(devoiler);
+                boutons.clear();
+                for (Carte c : devoiler) {
+                    boutons.add(new Bouton(c.getNom(), c.getNom()));
+                }
+                choix = joueur.choisir("Choisissez les cartes dans l'ordre à remettre sur la pioche", null, boutons, false);
+                Carte c = devoiler.retirer(choix);
+                joueur.ajouterAuDessusDeLaPioche(c);
+            }
         }
     }
 }

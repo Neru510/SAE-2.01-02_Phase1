@@ -19,11 +19,13 @@ public class BureauDuChefDeGare extends Action {
             }
         }
 
-        String choix = joueur.choisir("Choisissez une carte action que vous avez en main. Cette carte copie l'effet de la carte choisie.", choixPossibles, null, false);
+        if (!choixPossibles.isEmpty()){
+            String choix = joueur.choisir("Choisissez une carte action que vous avez en main. Cette carte copie l'effet de la carte choisie.", choixPossibles, null, false);
 
-        Carte carte = joueur.getMain().getCarte(choix);
-        if (carte != null){
-            carte.jouer(joueur);
+            Carte carte = joueur.getMain().getCarte(choix);
+            if (carte != null){
+                carte.jouer(joueur);
+            }
         }
     }
 }
