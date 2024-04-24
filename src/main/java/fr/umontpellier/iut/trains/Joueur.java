@@ -7,6 +7,8 @@ import fr.umontpellier.iut.trains.cartes.FabriqueListeDeCartes;
 import fr.umontpellier.iut.trains.cartes.ListeDeCartes;
 import fr.umontpellier.iut.trains.plateau.Tuile;
 
+import static fr.umontpellier.iut.trains.Jeu.isNumeric;
+
 public class Joueur {
     /**
      * Le jeu auquel le joueur est rattaché
@@ -178,7 +180,8 @@ public class Joueur {
         for (Carte c : defausse){
             if (c.getNom().equals(nomCarte)){
                 main.add(c);
-                defausse.remove(c);
+                defausse.retirer(c);
+                break;
             }
         }
     }
@@ -338,7 +341,8 @@ public class Joueur {
         boolean enleveSurcoutMontagne = false;
         boolean enleveSurcoutVille = false;
         boolean enleveSurcoutRiviere = false;
-        boolean surcoutJoueurs = false;
+        boolean enleveSurcoutJoueurs = false;
+        int k = 0;
 
         // Boucle principale
         while (!finTour) {
@@ -393,13 +397,24 @@ public class Joueur {
             } else if (choix.equals("oui") || choix.equals("non")){
                 casIsOuiNon(choix, choixChoisis);
             }
+            else if ((choix.equals("Ferraille") || choix.equals("")) && k == 0) {
+                ArrayList<Carte> cartes = new ArrayList<>();
+                for (Carte c : main){
+                    if (c.getNom().equals("Ferraille")){
+                        cartes.add(c);
+                    }
+                }
+                jeu.ajouterReserve(cartes);
+                main.retirer(cartes);
+            }
             else {
 
                 Carte carte = main.retirer(choix);
                 if (carte != null && Objects.equals(carte.getType(), "Rail")){
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
-                    carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere);  // exécuter l'action de la carte
+                    if (rails) argent +=2;
+                    carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs);  // exécuter l'action de la carte
                 }
                 else if (carte != null){
                     log("Joue " + carte); // affichage dans le log
@@ -425,6 +440,9 @@ public class Joueur {
                 else if (choix.equals("Pont en acier")){
                     enleveSurcoutRiviere = true;
                 }
+                else if (choix.equals("Coopération")){
+                    enleveSurcoutJoueurs = true;
+                }
 
             }
             if (ferraille && !choix.equals("Dépotoir") && cartesRecues.size() > size){
@@ -441,6 +459,7 @@ public class Joueur {
             if (rails && !choix.equals("Ferronnerie") && cartesEnJeu.getCarte(choix)!=null && cartesEnJeu.getCarte(choix).getType().equals("Rail")){
                 argent += 2;
             }
+            k++;
         }
         // Finalisation
         // À FAIRE: compléter la finalisation du tour
@@ -452,6 +471,7 @@ public class Joueur {
         defausse.addAll(cartesEnJeu);
         cartesEnJeu.clear();
         argent = 0;
+        pointsRails = 0;
         main.addAll(piocher(5)); // piocher 5 cartes en main
     }
 
@@ -577,10 +597,10 @@ public class Joueur {
     public Tuile choisirPosition(Collection<String> choix){
         String a = choisir(this.nom + " choisit une tuile de départ en cliquant dessus", choix, null, false);
         String [] words = a.split(":");
-        if (Integer.parseInt(words[1]) > -1){
-            coordonnees.add(jeu.getTuile(Integer.parseInt(words[1])));
+        if (isNumeric(words[1]) > -1){
+            coordonnees.add(jeu.getTuile(isNumeric(words[1])));
         }
-        return jeu.getTuile(Integer.parseInt(words[1]));
+        return jeu.getTuile(isNumeric(words[1]));
     }
 
     /**

@@ -90,7 +90,7 @@ public abstract class Carte {
         // On rajoute
     }
 
-    public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere){};
+    public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs){};
 
     public boolean mainContientTypeCarte(Joueur joueur, String type) {
         for (Carte carte : joueur.getMain()) {

@@ -1,7 +1,9 @@
 package fr.umontpellier.iut.trains.cartes;
 
+import fr.umontpellier.iut.trains.Bouton;
 import fr.umontpellier.iut.trains.Joueur;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,17 +18,17 @@ public class Remorquage extends Action {
         super.jouer(joueur);
         List<String> choixPossibles = new ArrayList<>();
         ListeDeCartes defausse = joueur.getDefausse();
+        ArrayList<Bouton> buttons = new ArrayList<>();
         for (Carte c : defausse){
             if (c.getType().equals("Train")){
+                buttons.add(new Bouton(c.getNom()));
                 choixPossibles.add(c.getNom());
             }
         }
-        String choix;
-        if (choixPossibles.isEmpty()) {
-            choixPossibles.add("");
+        if (!buttons.isEmpty()){
+            String choix = joueur.choisir("Prenez une carte train de votre défausse et ajoutez-la à votre main.", choixPossibles, buttons, true);
+            joueur.prendreDefausseEtAjouterMain(choix);
         }
-        choix = joueur.choisir("Prenez une carte train de votre défausse et ajoutez-la à votre main.", choixPossibles, null, false);
-        joueur.prendreDefausseEtAjouterMain(choix);
     }
 
 }

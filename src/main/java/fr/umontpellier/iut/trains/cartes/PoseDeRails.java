@@ -6,18 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static fr.umontpellier.iut.trains.Jeu.isNumeric;
+
 public class PoseDeRails extends Rail {
     public PoseDeRails() {
         super("Pose de rails", 3);
     }
 
     @Override
-    public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere) {
+    public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs) {
         super.jouer(joueur);
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
         ArrayList<Tuile> tuilesPosables = new ArrayList<>();
         for (Tuile t : tuiles) {
+            if(t.estConstructible()){
+                tuilesPosables.add(t);
+            }
             ArrayList<Tuile> tuilesVoisines = t.getVoisines();
             for (Tuile tt : tuilesVoisines) {
                 if (tt.estConstructible()) {
@@ -32,54 +37,49 @@ public class PoseDeRails extends Rail {
             }
         }
 
-        String choix = joueur.choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
-        String[] words = choix.split(":");
         Tuile t = null;
         boolean check = false;
-        if (Integer.parseInt(words[1]) > -1) {
-            t = joueur.getJeu().getTuile(Integer.parseInt(words[1]));
-        }
+        String choix = "";
+        String[] words = new String[2];
 
         while (!check) {
+            t = null;
             while (t == null) {
                 choix = joueur.choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
                 if (choix.isEmpty()){
                     break;
                 }
                 words = choix.split(":");
-                if (Integer.parseInt(words[1]) > -1) {
-                    t = joueur.getJeu().getTuile(Integer.parseInt(words[1]));
+                if (isNumeric(words[1]) > -1) {
+                    t = joueur.getJeu().getTuile(isNumeric(words[1]));
                 }
             }
             if (choix.isEmpty()){
                 break;
             }
-            check = true;
+            int surcout = 0;
 
-            if (Objects.equals(t.getType(), "Etoile")) {
-                check = surcout(joueur, enleveSurcout, t);
-            } else if (Objects.equals(t.getType(), "Ville")) {
-                check = surcout(joueur, enleveSurcoutRiviere, t);
-            } else if (Objects.equals(t.getType(), "Fleuve")) {
-                check = surcout(joueur, enleveSurcoutRiviere, t);
-            } else if (Objects.equals(t.getType(), "Montagne")) {
-                check = surcout(joueur, enleveSurcoutMontagne, t);
+            if (enleveSurcout){ // enlève le surcout total
+                check = true;
             }
-            t.ajouterRail(joueur);
+            else if (!(Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || !(Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || !(Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
+                surcout += t.surCout();
+            }
+
+            if (!enleveSurcoutJoueurs){
+                surcout += t.getNbRails();
+            }
+
+            if (surcout <= joueur.getArgent()){
+                joueur.ajouterArgent(-surcout);
+                check =true;
+            }
+        }
+        assert t != null;
+        t.ajouterRail(joueur);
+        if (t.getType().equals("Étoile")){
+            joueur.ajouterPointsRails(1);
         }
         joueur.ajouterCoordonnees(t);
-    }
-
-    public boolean surcout(Joueur joueur, boolean pasSurcout, Tuile t) {
-        if (!pasSurcout && t.surCout() <= joueur.getArgent()) {
-            joueur.ajouterArgent(-(t.surCout() + t.getNbRails()));
-            t.ajouterRail(joueur);
-            return true;
-        }
-        else if (t.getNbRails() <= joueur.getArgent()){
-            joueur.ajouterArgent(-t.getNbRails());
-            t.ajouterRail(joueur);
-        }
-        return pasSurcout;
     }
 }

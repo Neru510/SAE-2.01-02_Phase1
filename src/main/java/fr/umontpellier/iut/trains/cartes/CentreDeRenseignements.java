@@ -25,32 +25,31 @@ public class CentreDeRenseignements extends Action {
         }
 
         devoiler = (ListeDeCartes) joueur.piocher(tailleReel);
-        int i = 1;
         for (Carte c : devoiler) {
             boutons.add(new Bouton(c.getNom(), c.getNom()));
-            i++;
         }
         joueur.devoilerCartes(devoiler);
 
-        String choix = joueur.choisir("Choisisez une carte a prendre ou passer", null, boutons, true);
+        String choix = joueur.choisir("Choisissez une carte a prendre", null, boutons, true);
         Carte carte = devoiler.getCarte(choix);
 
         if (carte != null) {
             joueur.ajouterMain(carte);
             devoiler.retirer(carte.getNom());
-            joueur.message("Carte " + carte.getNom() + " ajouter a votre main");
-        } else joueur.message("Aucune carte ajouter a votre main");
+            joueur.message("Carte " + carte.getNom() + " ajoutée à votre main");
+        } else joueur.message("Aucune carte à ajouter à votre main");
 
-        for (int a = 0; a < devoiler.size();) {
-            boutons.clear();
-            for (Carte c : devoiler) {
-                boutons.add(new Bouton(c.getNom(), c.getNom()));
-                i++;
-            }
+        for (Carte c : devoiler) {
+            boutons.add(new Bouton(c.getNom(), c.getNom()));
+        }
+
+        while(!devoiler.isEmpty()) {
+
             joueur.devoilerCartes(devoiler);
 
-            choix = joueur.choisir("Choisisez la carte a remettre sur la pioche", null, boutons, false);
-            joueur.ajouterAuDessusDeLaPioche(devoiler.retirer(choix));
+            choix = joueur.choisir("Choisissez les cartes dans l'ordre à remettre sur la pioche", null, boutons, false);
+            Carte c = devoiler.retirer(choix);
+            joueur.ajouterAuDessusDeLaPioche(c);
         }
     }
 }

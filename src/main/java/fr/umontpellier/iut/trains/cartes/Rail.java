@@ -12,6 +12,6 @@ public abstract class Rail extends Carte{
         super.jouer(joueur);
         Carte carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
         joueur.ajouterCartesRecues(carte);
-        joueur.ajouterPointsRails(1);
+        //joueur.ajouterPointsRails(1);
     }
 }

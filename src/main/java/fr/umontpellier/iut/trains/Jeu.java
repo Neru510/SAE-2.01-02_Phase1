@@ -106,7 +106,10 @@ public class Jeu implements Runnable {
             this.joueurs.add(new Joueur(this, nomJoueur, couleurs.remove(0)));
         }
         this.joueurCourant = joueurs.get(0);
-        //this.joueurCourant.setArgent(100);
+    }
+
+    public List<Joueur> getJoueurs(){
+        return joueurs;
     }
 
     public Joueur getJoueurCourant() {
@@ -370,6 +373,15 @@ public class Jeu implements Runnable {
 
     public void ecarterCarte(Carte carte){
         cartesEcartees.add(carte);
+    }
+
+    public static int isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return Integer.parseInt(str);
+        } catch(NumberFormatException e){
+            return -1;
+        }
     }
 
     /*

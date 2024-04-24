@@ -39,6 +39,26 @@ public class ListeDeCartes extends ArrayList<Carte> {
         return null;
     }
 
+    public Carte retirer(Carte carte){
+        for (Carte c : this)
+            if (c == carte) {
+                remove(c);
+                return c;
+            }
+        return null;
+    }
+
+    public void retirer(ArrayList<Carte> cartes){
+        for (Carte c : cartes){
+            for (Carte cc : this){
+                if (cc.equals(c)){
+                    remove(cc);
+                    break;
+                }
+            }
+        }
+    }
+
 
     /**
      * Renvoie une carte de la liste dont le nom est égal à l'argument (la carte

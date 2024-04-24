@@ -38,7 +38,18 @@ public class GameServer {
         String[] nomsJoueurs = { "Guybrush", "Largo" };
 
         // Liste des cartes à utiliser :
-        String[] nomsCartes = {"Aiguillage", "Atelier de maintenance", "Bureau du chef de gare", "Cabine du conducteur", "Centre de contrôle", "Centre de renseignements", "Décharge", "Dépôt", "Dépotoir", "Échangeur", "Ferronnerie", "Feu de signalisation", "Horaires estivaux", "Horaires temporaires", "Parc d'attractions", "Passage en gare", "Personnel de gare", "Remorquage", "Salle de contrôle", "Usine de wagons"};
+        String[] nomsCartes = {"TGV", "Train de marchandises",
+                "Train de tourisme", "Train matinal",
+                "Train omnibus", "Train postal",
+                "Coopération", "Tunnel",
+                "Viaduc", "Voie souterraine",
+                "Aiguillage", "Atelier de maintenance",
+                "Bureau du chef de gare", "Cabine du conducteur",
+                "Centre de contrôle", "Centre de renseignements",
+                "Décharge", "Dépôt", "Dépotoir", "Échangeur", "Ferronnerie",
+                "Feu de signalisation", "Horaires estivaux", "Horaires temporaires",
+                "Parc d'attractions", "Passage en gare", "Personnel de gare",
+                "Remorquage", "Salle de contrôle", "Usine de wagons"};
 
         // On peut aussi choisir de tirer aléatoirement 8 cartes préparation
         // List<String> cartesPreparation = new ArrayList<>(FabriqueListeDeCartes.getNomsCartesPreparation());

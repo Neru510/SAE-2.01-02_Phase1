@@ -9,45 +9,53 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static fr.umontpellier.iut.trains.Jeu.isNumeric;
+
 public class Gare extends Carte {
     public Gare() {
         super("Gare","Gare","Violet",3,0);
     }
 
     @Override
-    public void jouer(Joueur joueur){
+    public void jouer(Joueur joueur) {
         joueur.piocherFeraille(1);
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
         ArrayList<Tuile> tuilesPosables = new ArrayList<>();
+        ArrayList<Tuile> tuilesVoisines = null;
+        for (Tuile t : tuiles) {
+            tuilesVoisines = t.getVoisines();
+        }
+        tuiles.addAll(tuilesVoisines);
         for (Tuile t : tuiles){
-            ArrayList<Tuile> tuilesVoisines = t.getVoisines();
-            for (Tuile tt : tuilesVoisines){
-                if (tt.estPosable()){
-                    tuilesPosables.add(tt);
-                }
+            if (t.estPosable() && t.hasRail(joueur)){
+                tuilesPosables.add(t);
             }
         }
 
-        for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++){
-            if (tuilesPosables.contains(joueur.getJeu().getTuiles().get(i))){
+        for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++) {
+            if (tuilesPosables.contains(joueur.getJeu().getTuiles().get(i))) {
                 choixPossibles.add("TUILE:" + i);
             }
         }
 
-        if (tuiles.isEmpty()){ // alors c'est un test :c
-            for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++){
-                if (joueur.getJeu().getTuiles().get(i).estPosable()){
+        if (tuiles.isEmpty()) { // alors c'est un test :c
+            for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++) {
+                if (joueur.getJeu().getTuiles().get(i).estConstructible()) {
                     choixPossibles.add("TUILE:" + i);
                 }
             }
         }
 
         String choix = joueur.choisir("Choisit une tuile sur laquelle mettre ta gare", choixPossibles, null, true);
-        String [] words = choix.split(":");
+        String[] words = choix.split(":");
         int index;
-        index = Integer.parseInt(words[1]);
-        Tuile tuile = joueur.getJeu().getTuile(index);
-        tuile.ajouterGare();
+        if (words.length > 1){
+            index = isNumeric(words[1]);
+            if (index > -1){
+                Tuile tuile = joueur.getJeu().getTuile(index);
+                tuile.ajouterGare();
+            }
+        }
     }
 }
