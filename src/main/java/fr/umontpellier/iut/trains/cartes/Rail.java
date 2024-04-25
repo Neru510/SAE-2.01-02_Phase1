@@ -18,10 +18,9 @@ public abstract class Rail extends Carte{
     @Override
     public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs) {
         super.jouer(joueur);
-        if (!enleveSurcoutJoueurs){
-            Carte carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
-            joueur.ajouterCartesRecues(carte);
-        }
+
+        Carte carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
+        joueur.ajouterCartesRecues(carte);
         joueur.ajouterPointsRails(1);
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
@@ -75,6 +74,10 @@ public abstract class Rail extends Carte{
                 }
                 else if ((Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
                     surcout += t.getNbRails();
+                    if (t.getNbRails() > 0){
+                        carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
+                        joueur.ajouterCartesRecues(carte);
+                    }
                 }
                 else if (enleveSurcoutJoueurs){
                     surcout += t.surCout();
