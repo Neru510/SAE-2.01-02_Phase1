@@ -218,15 +218,20 @@ public class Joueur {
         // À FAIRE
         int somme = 0;
         for (Carte c : defausse){
-            somme += c.getNbPrestige();
+            if (c != null){
+                somme += c.getNbPrestige();
+            }
         }
         for (Carte c : pioche){
-            somme += c.getNbPrestige();
+            if (c != null){
+                somme += c.getNbPrestige();
+            }
         }
         for (Carte c : main){
-            somme += c.getNbPrestige();
+            if (c != null){
+                somme += c.getNbPrestige();
+            }
         }
-        //somme += pointsRails;
         somme += nbPointsCourants;
         return somme;
     }
@@ -366,7 +371,6 @@ public class Joueur {
             choixPossibles.add("oui");
             choixPossibles.add("non");
             choixPossibles.add("");
-            int size = cartesRecues.size();
 
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
@@ -414,51 +418,38 @@ public class Joueur {
             else {
 
                 Carte carte = main.retirer(choix);
-                if (carte != null && Objects.equals(carte.getType(), "Rail")){
-                    if (choix.equals("Voie souterraine")){
+                if (carte != null && Objects.equals(carte.getType(), "Rail")) {
+                    if (choix.equals("Voie souterraine")) {
                         enleveSurcout = true;
-                    }
-                    else if (choix.equals("Tunnel")){
+                    } else if (choix.equals("Tunnel")) {
                         enleveSurcoutMontagne = true;
-                    }
-                    else if (choix.equals("Viaduc")){
+                    } else if (choix.equals("Viaduc")) {
                         enleveSurcoutVille = true;
-                    }
-                    else if (choix.equals("Pont en acier")){
+                    } else if (choix.equals("Pont en acier")) {
                         enleveSurcoutRiviere = true;
-                    }
-                    else if (choix.equals("Coopération")){
+                    } else if (choix.equals("Coopération")) {
                         enleveSurcoutJoueurs = true;
                     }
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
-                    if (rails) argent +=2;
-                    carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs);  // exécuter l'action de la carte
+                    if (rails) argent += 2;
+                    carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs, ferraille);  // exécuter l'action de la carte
 
-                }
-                else if (carte != null){
+                } else if (carte != null && carte.getNom().equals("Gare")) {
+                    carte.jouer(this, ferraille);
+                } else if (carte != null) {
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     carte.jouer(this);  // exécuter l'action de la carte
                 }
 
-                if (choix.equals("Dépotoir")){
+                if (choix.equals("Dépotoir")) {
                     ferraille = true;
-                }
-                else if (choix.equals("Ferronnerie")){
+                } else if (choix.equals("Ferronnerie")) {
                     rails = true;
                 }
 
 
-            }
-            if (ferraille && !choix.equals("Dépotoir") && cartesRecues.size() > size){
-                int diff = cartesRecues.size() - size;
-                for (int i = 1; i <= diff; i++){
-                    if (cartesRecues.get(cartesRecues.size() - i).getNom().equals("Ferraille")){
-                        jeu.ajouterReserve(cartesRecues.get(cartesRecues.size() - i));
-                        cartesRecues.remove(cartesRecues.get(cartesRecues.size() - i));
-                    }
-                }
             }
 
 

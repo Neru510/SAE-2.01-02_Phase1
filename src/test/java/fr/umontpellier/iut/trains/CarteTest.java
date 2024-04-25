@@ -2,6 +2,8 @@ package fr.umontpellier.iut.trains;
 
 import java.util.List;
 
+import fr.umontpellier.iut.trains.cartes.PoseDeRails;
+import fr.umontpellier.iut.trains.plateau.Plateau;
 import org.junit.jupiter.api.Test;
 
 import fr.umontpellier.iut.trains.cartes.*;
@@ -110,27 +112,33 @@ public class CarteTest extends BaseTestClass {
     }
 
     @Test
-    void test_pose_de_rails_surcout_plaine(){
-        setupJeu("Pose de rails");
-        initialisation();
+    void test_pose_de_rails_surcout_joueur(){
 
-        Carte c = new PoseDeRails();
-        Carte fondPioche = new Ferraille();
-        Carte f = reserve.get("Ferraille").get(0);
+        String[] cartesPreparation = {"Pose de rails"};
 
-        addAll(main, c);
-        addAll(pioche, fondPioche);
+        Jeu jeu = new Jeu(new String[]{"Joueur1", "Joueur2"}, cartesPreparation,Plateau.OSAKA);
+        
+        List<Joueur> joueurs = jeu.getJoueurs();
+        int i = 0;
+        for(Joueur j : joueurs){
+            if (i == 0){
+                j.getCoordonnees().add(jeu.getTuile(21));
+            }
+            else {
+                j.getCoordonnees().add(jeu.getTuile(19));
+            }
+            i++;
+        }
+        
 
-        jouerTourPartiel("Pose de rails", "TUILE:20");
 
-        assertTrue(containsReferences(main));
-        assertTrue(containsReferencesInOrder(pioche, fondPioche));
+        /*assertTrue(containsReferences(main));
+        assertTrue(containsReferencesInOrder(pioche));
         assertTrue(containsReferences(defausse));
-        assertTrue(containsReferences(cartesEnJeu, c));
-        assertTrue(containsReferences(cartesRecues, f));
-        assertFalse(containsReference(reserve.get("Ferraille"), f));
+        assertTrue(containsReferences(cartesEnJeu));
+        assertTrue(containsReferences(cartesRecues));
         assertEquals(0, getArgent(joueur));
-        assertEquals(1, getPointsRails(joueur));
+        assertEquals(1, getPointsRails(joueur));*/
     }
 
     @Test

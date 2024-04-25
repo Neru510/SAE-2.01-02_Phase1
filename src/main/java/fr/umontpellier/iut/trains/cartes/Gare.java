@@ -17,8 +17,10 @@ public class Gare extends Carte {
     }
 
     @Override
-    public void jouer(Joueur joueur) {
-        joueur.piocherFeraille(1);
+    public void jouer(Joueur joueur, boolean pasDeferraille) {
+        if (!pasDeferraille){
+            joueur.piocherFeraille(1);
+        }
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
         ArrayList<Tuile> tuilesPosables = new ArrayList<>();

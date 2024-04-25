@@ -16,11 +16,14 @@ public abstract class Rail extends Carte{
     }
 
     @Override
-    public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs) {
+    public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs, boolean enleveCarteFerraille) {
         super.jouer(joueur);
+        Carte carte;
 
-        Carte carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
-        joueur.ajouterCartesRecues(carte);
+        if (!enleveCarteFerraille){
+            carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
+            joueur.ajouterCartesRecues(carte);
+        }
         joueur.ajouterPointsRails(1);
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
