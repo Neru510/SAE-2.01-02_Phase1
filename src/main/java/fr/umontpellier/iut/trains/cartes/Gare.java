@@ -32,7 +32,7 @@ public class Gare extends Carte {
         if (tuilesVoisines != null){
             tuiles.addAll(tuilesVoisines);
             for (Tuile t : tuiles){
-                if (t.estPosable() && t.hasRail(joueur)){
+                if (t.estPosable()){
                     tuilesPosables.add(t);
                 }
             }
