@@ -93,12 +93,13 @@ public abstract class Rail extends Carte{
                     joueur.message("Il manque " + a + " pièces");
                 }
             }
-            assert t != null;
-            t.ajouterRail(joueur);
-            if (t.getType().equals("Étoile")){
-                joueur.ajouterPointScoreTotal(1);
+            if (t != null){
+                t.ajouterRail(joueur);
+                if (t.getType().equals("Étoile")){
+                    joueur.ajouterPointScoreTotal(1);
+                }
+                joueur.ajouterCoordonnees(t);
             }
-            joueur.ajouterCoordonnees(t);
         }
     }
 }
