@@ -3,6 +3,6 @@ import fr.umontpellier.iut.trains.Joueur;
 
 public class Cooperation extends Rail {
     public Cooperation() {
-        super("Coopération", 0);
+        super("Coopération", 5);
     }
 }
