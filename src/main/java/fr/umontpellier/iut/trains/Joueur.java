@@ -392,14 +392,7 @@ public class Joueur {
                     log("Pas assez d'argent, il manque " + cost);
                     choixChoisis.remove(choixChoisis.size()-1);
                 }
-            } else if (choix.isEmpty()) {
-                // terminer le tour
-                finTour = true;
-
-            } else if (choix.equals("oui") || choix.equals("non")){
-                casIsOuiNon(choix, choixChoisis);
-            }
-            else if ((choix.equals("Ferraille") || choix.equals("")) && k == 0) {
+            } else if ((choix.equals("Ferraille") || choix.isEmpty()) && k == 0) {
                 ArrayList<Carte> cartes = new ArrayList<>();
                 for (Carte c : main){
                     if (c.getNom().equals("Ferraille")){
@@ -408,7 +401,16 @@ public class Joueur {
                 }
                 jeu.ajouterReserve(cartes);
                 main.retirer(cartes);
+                finTour = true;
             }
+            else if (choix.isEmpty()) {
+                // terminer le tour
+                finTour = true;
+
+            } else if (choix.equals("oui") || choix.equals("non")){
+                casIsOuiNon(choix, choixChoisis);
+            }
+
             else {
 
                 Carte carte = main.retirer(choix);

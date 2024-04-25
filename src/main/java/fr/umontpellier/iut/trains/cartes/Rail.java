@@ -84,7 +84,12 @@ public abstract class Rail extends Carte{
                     surcout += t.getNbGares();
                 }
                 else {
-                    surcout += t.getNbRails() + t.surCout() + t.getNbGares();;
+                    surcout += t.getNbRails() + t.surCout() + t.getNbGares();
+                }
+
+                if (!enleveSurcoutJoueurs && t.getNbRails() > 0){
+                    carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
+                    joueur.ajouterCartesRecues(carte);
                 }
 
                 if (surcout <= joueur.getArgent()){
@@ -98,9 +103,6 @@ public abstract class Rail extends Carte{
             }
             if (t != null){
                 t.ajouterRail(joueur);
-                if (t.getType().equals("Étoile")){
-                    joueur.ajouterPointScoreTotal(1);
-                }
                 joueur.ajouterCoordonnees(t);
             }
         }
