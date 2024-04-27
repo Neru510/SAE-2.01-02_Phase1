@@ -421,16 +421,12 @@ public class Joueur {
             else {
                 Carte carte = main.retirer(choix);
                 if (carte != null && Objects.equals(carte.getType(), "Rail")) {
-                    if (choix.equals("Voie souterraine")) {
-                        enleveSurcout = true;
-                    } else if (choix.equals("Tunnel")) {
-                        enleveSurcoutMontagne = true;
-                    } else if (choix.equals("Viaduc")) {
-                        enleveSurcoutVille = true;
-                    } else if (choix.equals("Pont en acier")) {
-                        enleveSurcoutRiviere = true;
-                    } else if (choix.equals("Coopération")) {
-                        enleveSurcoutJoueurs = true;
+                    switch (choix) {
+                        case "Voie souterraine" -> enleveSurcout = true;
+                        case "Tunnel" -> enleveSurcoutMontagne = true;
+                        case "Viaduc" -> enleveSurcoutVille = true;
+                        case "Pont en acier" -> enleveSurcoutRiviere = true;
+                        case "Coopération" -> enleveSurcoutJoueurs = true;
                     }
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
@@ -471,6 +467,10 @@ public class Joueur {
                 argent += 2;
             }
             k++;
+
+            if (jeu.getNbJetonsGare() == 0){
+                finTour = true;
+            }
         }
         // Finalisation
         // À FAIRE: compléter la finalisation du tour
@@ -490,18 +490,6 @@ public class Joueur {
         Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
         cartesRecues.add(carteFeraille);
         log("Reçoit " + carteFeraille);
-    }
-
-    public boolean verifierChoixChoisis(List<String> choixChoisis, String nomCarte){
-        int i = 0;
-        boolean check = false;
-        while (i < choixChoisis.size() && !check){
-            if (choixChoisis.get(i).equals(nomCarte)){
-                check = true;
-            }
-            i++;
-        }
-        return check;
     }
 
     public void casIsTrainMatinal(String nomCarte){

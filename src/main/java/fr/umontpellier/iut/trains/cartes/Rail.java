@@ -28,10 +28,8 @@ public abstract class Rail extends Carte{
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
         ArrayList<Tuile> tuilesPosables = new ArrayList<>();
+
         for (Tuile t : tuiles) {
-            if(t.estConstructible()){
-                tuilesPosables.add(t);
-            }
             ArrayList<Tuile> tuilesVoisines = t.getVoisines();
             for (Tuile tt : tuilesVoisines) {
                 if (tt.estConstructible()) {

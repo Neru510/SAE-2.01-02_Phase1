@@ -251,7 +251,7 @@ public class Jeu implements Runnable {
      */
     public boolean estFini() {
         for (Joueur joueur : joueurs) { // vérifie si un des joueurs a posé tous ses jetons Rail sur le plateau
-            if (joueur.getNbJetonsRails() == 0) {
+            if (joueur.getNbJetonsRails() <= 0) {
                 return true;
             }
         }
@@ -273,6 +273,10 @@ public class Jeu implements Runnable {
         }
 
         return false;
+    }
+
+    public int getNbJetonsGare(){
+        return nbJetonsGare;
     }
 
     /**
