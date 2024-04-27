@@ -338,6 +338,7 @@ public class Joueur {
         jeu.log("<div class=\"tour\">Tour de " + toLog() + "</div>");
         // À FAIRE: compléter l'initialisation du tour si nécessaire (mais possiblement
         // rien de spécial à faire)
+        argent = 100;
 
         boolean finTour = false;
         List<String> choixChoisis = new ArrayList<>();
@@ -349,6 +350,7 @@ public class Joueur {
         boolean enleveSurcoutVille = false;
         boolean enleveSurcoutRiviere = false;
         boolean enleveSurcoutJoueurs = false;
+        boolean trainMatinal = false;
         int k = 0;
 
         // Boucle principale
@@ -389,7 +391,7 @@ public class Joueur {
                         casIsFeraille();
                     }
                 }
-                else {
+                else if (carte != null) {
                     assert carte != null;
                     int i = (carte.getCout() - argent);
                     String cost = String.valueOf(i);
@@ -411,12 +413,12 @@ public class Joueur {
                 // terminer le tour
                 finTour = true;
 
-            } else if (choix.equals("oui") || choix.equals("non")){
-                casIsOuiNon(choix, choixChoisis);
+            } else if (choix.equals("Train matinal")){
+                trainMatinal = true;
+                Carte c = main.retirer(choix);
+                cartesEnJeu.add(c);
             }
-
             else {
-
                 Carte carte = main.retirer(choix);
                 if (carte != null && Objects.equals(carte.getType(), "Rail")) {
                     if (choix.equals("Voie souterraine")) {
@@ -436,6 +438,7 @@ public class Joueur {
                     carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs, ferraille);  // exécuter l'action de la carte
 
                 } else if (carte != null && carte.getNom().equals("Gare")) {
+                    cartesEnJeu.add(carte);
                     carte.jouer(this, ferraille);
                 } else if (carte != null) {
                     log("Joue " + carte); // affichage dans le log
@@ -448,12 +451,23 @@ public class Joueur {
                 } else if (choix.equals("Ferronnerie")) {
                     rails = true;
                 }
-
-
             }
 
+            if (choix.startsWith("ACHAT:") && trainMatinal){
+                List<Bouton> boutons = new ArrayList<>();
+                Bouton oui = new Bouton("oui");
+                Bouton non = new Bouton("non");
+                boutons.add(oui);
+                boutons.add(non);
+                String secondChoix = this.choisir("Voulez-vous mettre la carte sur votre deck ?", null, boutons, true);
+                if (secondChoix.equals("oui")){
+                    String[] words = choix.split(":");
+                    Carte c = cartesRecues.retirer(words[1]);
+                    ajouterAuDessusDeLaPioche(c);
+                }
+            }
 
-            if (rails && !choix.equals("Ferronnerie") && cartesEnJeu.getCarte(choix)!=null && cartesEnJeu.getCarte(choix).getType().equals("Rail")){
+            if (cartesEnJeu.getCarte(choix)!=null && rails && !choix.equals("Ferronnerie") && cartesEnJeu.getCarte(choix).getType().equals("Rail")){
                 argent += 2;
             }
             k++;
@@ -476,17 +490,6 @@ public class Joueur {
         Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
         cartesRecues.add(carteFeraille);
         log("Reçoit " + carteFeraille);
-    }
-
-    public void casIsOuiNon(String choix, List<String> choixChoisis){
-        if (choix.equals("oui")){
-            if (choixChoisis.size() > 1){
-                if (choixChoisis.get(choixChoisis.size()-2).startsWith("ACHAT:") && verifierChoixChoisis(choixChoisis, "Train matinal")){
-                    String[] mots = choixChoisis.get(choixChoisis.size()-2).split(":");
-                    casIsTrainMatinal(mots[1]);
-                }
-            }
-        }
     }
 
     public boolean verifierChoixChoisis(List<String> choixChoisis, String nomCarte){

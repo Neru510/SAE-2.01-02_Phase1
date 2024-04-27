@@ -81,13 +81,8 @@ public abstract class Carte {
      * @param joueur le joueur qui joue la carte
      */
     public void jouer(Joueur joueur) {
-        if (this.valeur > 0) {
-            joueur.setArgent(joueur.getArgent() + valeur);
-        }
-        if (this.nbPrestige > 0){
-            joueur.ajouterPointScoreTotal(nbPrestige);
-        }
-        // On rajoute
+        joueur.ajouterArgent(valeur);
+        joueur.ajouterPointScoreTotal(nbPrestige);
     }
 
     public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs, boolean ferraille){};
