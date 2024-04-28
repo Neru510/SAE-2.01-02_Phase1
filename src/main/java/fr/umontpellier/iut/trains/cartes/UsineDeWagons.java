@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.trains.cartes;
 
+import fr.umontpellier.iut.trains.Bouton;
 import fr.umontpellier.iut.trains.Joueur;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class UsineDeWagons extends Action {
     @Override
     public void jouer(Joueur joueur){
         super.jouer(joueur);
+        List<Bouton> boutons = new ArrayList<>();
         List<String> choixPossibles = new ArrayList<>();
         for (Carte c : joueur.getMain()){
             if (Objects.equals(c.getType(), "Train")){
@@ -22,12 +24,12 @@ public class UsineDeWagons extends Action {
         }
 
         if (!choixPossibles.isEmpty()){
-            String choix = joueur.choisir("Écartez une carte de votre main. Recevez une carte train coutant jusqu'à 3 de plus que la carte écartée. Ajoutez cette nouvelle carte train à votre main.", choixPossibles, null, false);
+            String choix = joueur.choisir("Écartez une carte de votre main.", choixPossibles, null, true);
             Carte carte = joueur.getMain().retirer(choix);
             int prix = carte.getvaleur()*3;
             joueur.getJeu().ecarterCarte(carte);
             choixPossibles.clear();
-            boolean check = false;
+            //boolean check = false;
             for (String nomCarte: joueur.getJeu().getReserve().keySet()) {
                 // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
                 if (Objects.equals(joueur.getJeu().voirLaReserve(nomCarte).getType(), "Train") && joueur.getJeu().voirLaReserve(nomCarte).getCout() <= prix){
@@ -35,7 +37,7 @@ public class UsineDeWagons extends Action {
                 }
             }
 
-            choix = joueur.choisir("Choisissez la carte que vous souhaitez acheter, elle doit coûter moins ou égal à " + prix, choixPossibles, null, true);
+            choix = joueur.choisir("Choisissez la carte que vous souhaitez acheter, elle doit coûter moins ou égal à " + prix, choixPossibles, null, false);
             String[] choixDecoupe = choix.split(":");
             Carte c = joueur.getJeu().prendreDansLaReserve(choixDecoupe[1]);
             if (c != null){
