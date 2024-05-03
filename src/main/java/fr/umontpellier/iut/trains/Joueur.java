@@ -216,23 +216,13 @@ public class Joueur {
      */
     public int getScoreTotal() {
         // À FAIRE
-        int somme = 0;
-        for (Carte c : defausse){
-            if (c != null){
-                somme += c.getNbPrestige();
+        int somme = nbPointsCourants;
+        for (Tuile t : coordonnees){
+            if (t.getType().equals("Ville")){
+                somme += t.getNbGares()*2;
             }
         }
-        for (Carte c : pioche){
-            if (c != null){
-                somme += c.getNbPrestige();
-            }
-        }
-        for (Carte c : main){
-            if (c != null){
-                somme += c.getNbPrestige();
-            }
-        }
-        somme += nbPointsCourants;
+
         return somme;
     }
 
@@ -338,7 +328,7 @@ public class Joueur {
         jeu.log("<div class=\"tour\">Tour de " + toLog() + "</div>");
         // À FAIRE: compléter l'initialisation du tour si nécessaire (mais possiblement
         // rien de spécial à faire)
-        argent = 100;
+        //argent = 100;
 
         boolean finTour = false;
         List<String> choixChoisis = new ArrayList<>();
@@ -367,12 +357,13 @@ public class Joueur {
 
             for (String nomCarte: jeu.getReserve().keySet()) {
                 // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
-                choixPossibles.add("ACHAT:" + nomCarte);
+                if (!(nomCarte.equals("Ferraille"))){
+                    choixPossibles.add("ACHAT:" + nomCarte);
+                }
             }
 
             choixPossibles.add("oui");
             choixPossibles.add("non");
-            choixPossibles.add("");
 
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
@@ -390,9 +381,11 @@ public class Joueur {
                     if (carte.isFeraille() && !ferraille){
                         casIsFeraille();
                     }
+                    if (carte.getType().equals("Victoire")){
+                        nbPointsCourants += carte.getNbPrestige();
+                    }
                 }
                 else if (carte != null) {
-                    assert carte != null;
                     int i = (carte.getCout() - argent);
                     String cost = String.valueOf(i);
                     log("Pas assez d'argent, il manque " + cost);
@@ -416,6 +409,7 @@ public class Joueur {
             } else if (choix.equals("Train matinal")){
                 trainMatinal = true;
                 Carte c = main.retirer(choix);
+                c.jouer(this);
                 cartesEnJeu.add(c);
             }
             else {
@@ -449,7 +443,7 @@ public class Joueur {
                 }
             }
 
-            if (choix.startsWith("ACHAT:") && trainMatinal){
+            if (trainMatinal && choix.startsWith("ACHAT:")){
                 List<Bouton> boutons = new ArrayList<>();
                 Bouton oui = new Bouton("oui");
                 Bouton non = new Bouton("non");
@@ -490,11 +484,6 @@ public class Joueur {
         Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
         cartesRecues.add(carteFeraille);
         log("Reçoit " + carteFeraille);
-    }
-
-    public void casIsTrainMatinal(String nomCarte){
-        Carte carte = cartesRecues.retirer(nomCarte);
-        pioche.add(0, carte);
     }
 
     /**

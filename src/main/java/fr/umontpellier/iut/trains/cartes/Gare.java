@@ -18,6 +18,7 @@ public class Gare extends Carte {
 
     @Override
     public void jouer(Joueur joueur, boolean pasDeferraille) {
+        super.jouer(joueur);
         if (!pasDeferraille){
             joueur.piocherFeraille(1);
         }
@@ -32,7 +33,7 @@ public class Gare extends Carte {
         if (tuilesVoisines != null){
             tuiles.addAll(tuilesVoisines);
             for (Tuile t : tuiles){
-                if (t.estPosable()){
+                if (t.estPosable() && t.getNbGares() == 0){
                     tuilesPosables.add(t);
                 }
             }

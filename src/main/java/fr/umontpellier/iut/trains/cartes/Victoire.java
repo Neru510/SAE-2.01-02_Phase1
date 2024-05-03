@@ -8,4 +8,7 @@ public abstract class Victoire extends Carte {
         super(nom,"Victoire","Jaune", cout, vente, nbPrestige);
         this.setFeraille(true);
     }
+
+    @Override
+    public void jouer(Joueur joueur){}
 }
