@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.trains.cartes;
 
+import fr.umontpellier.iut.trains.Bouton;
 import fr.umontpellier.iut.trains.Joueur;
 
 import java.util.ArrayList;
@@ -14,15 +15,18 @@ public class CentreDeControle extends Action {
     public void jouer(Joueur joueur) {
         super.jouer(joueur);
         joueur.piocherEtAjouterMain();
+        ListeDeCartes choixPossibles = joueur.getToutLesCarteEnJeu();
+        List<Bouton> boutons = new ArrayList<>();
+        for (Carte carte : choixPossibles){
+            boutons.add(new Bouton(carte.getNom()));
+        }
 
-        joueur.message("Nommez une carte");
-        String nomCarte = joueur.lireLigne();
+        String choix = joueur.choisir("Choisissez une carte qui pourrer etre le première carte de la pioche.", null, boutons, false);
 
-        Carte premiereCartePioche = joueur.getPioche().get(0);
-
-        joueur.devoilerCarte(premiereCartePioche);
-
-        if (premiereCartePioche.getNom().equals(nomCarte)) {
+        Carte carte = choixPossibles.getCarte(choix);
+        Carte cartePioche = joueur.getPioche().get(0);
+        joueur.devoilerCarte(cartePioche);
+        if (cartePioche.getNom().equals(carte.getNom())){
             joueur.message("Gagné, vous garder la carte");
             joueur.piocherEtAjouterMain();
         } else {

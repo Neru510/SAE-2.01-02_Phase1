@@ -674,7 +674,15 @@ public class Joueur {
         return jeu.prendreDansLaReserve(nomCarte);
     }
 
-
+    public ListeDeCartes getToutLesCarteEnJeu(){
+        ListeDeCartes carte = new ListeDeCartes();
+        carte.addAll(getMain());
+        carte.addAll(getPioche());
+        carte.addAll(getDefausse());
+        carte.addAll(getCartesEnJeu());
+        carte.addAll(getCartesRecues());
+        return carte;
+    }
     /*
     public void modifierNbJetonsRails(int i){
         nbJetonsRails = i;
