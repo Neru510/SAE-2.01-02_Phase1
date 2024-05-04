@@ -15,6 +15,10 @@ public class TuileEtoile extends Tuile {
     }
 
     public boolean estPosable(){
+        return true;
+    }
+
+    public boolean estConstructible(){
         return false;
     }
 

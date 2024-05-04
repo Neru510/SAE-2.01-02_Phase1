@@ -163,7 +163,9 @@ public class Joueur {
 
     public void piocherEtAjouterMain(){
         Carte carte = piocher();
-        main.add(carte);
+        if (carte != null){
+            main.add(carte);
+        }
     }
 
     public void defausser(Carte carte){
@@ -337,7 +339,7 @@ public class Joueur {
         List<String> choixChoisis = new ArrayList<>();
 
         boolean ferraille = false; // carte action dépotoire
-        boolean rails = false;
+        int rails = 0;
         boolean enleveSurcout = false;
         boolean enleveSurcoutMontagne = false;
         boolean enleveSurcoutVille = false;
@@ -426,7 +428,7 @@ public class Joueur {
                     ferraille = true;
                 }
                 else if (a == -2){ // ferronerie
-                    rails = true;
+                    rails ++;
                 }
             }
             else {
@@ -441,7 +443,7 @@ public class Joueur {
                     }
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
-                    if (rails) argent += 2;
+                    if (rails != 0) argent += 2*rails;
                     carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs, ferraille);  // exécuter l'action de la carte
                 }
                 else if (carte != null && carte.getNom().equals("Gare")) {
@@ -458,7 +460,7 @@ public class Joueur {
                 if (choix.equals("Dépotoir")) {
                     ferraille = true;
                 } else if (choix.equals("Ferronnerie")) {
-                    rails = true;
+                    rails++;
                 }
             }
 
@@ -477,10 +479,6 @@ public class Joueur {
             }
 
             k++;
-
-            if (jeu.getNbJetonsGare() == 0){
-                finTour = true;
-            }
         }
         // Finalisation
         // À FAIRE: compléter la finalisation du tour

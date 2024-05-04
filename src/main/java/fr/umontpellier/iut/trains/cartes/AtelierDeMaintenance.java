@@ -32,6 +32,8 @@ public class AtelierDeMaintenance extends Action {
                 joueur.message("Vous n'avez pas de carte " + carte.toString() + " dans la réserve");
             }
         }
-        else joueur.message("Vous ne possédez aucune carte train");
+        else {
+            joueur.choisir("Vous ne possédez aucune carte train. Cliquez sur passer", null, null, true);
+        }
     }
 }

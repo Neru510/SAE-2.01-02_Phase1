@@ -221,7 +221,7 @@ public class Jeu implements Runnable {
         // À FAIRE: compléter la partie initialisation
         Collection<String> choix = new ArrayList<String>();
         for (int i = 0; i < tuiles.size(); i++){
-            if (tuiles.get(i).estPosable()){
+            if (tuiles.get(i).estConstructible()){
                 choix.add("TUILE:" + i);
             }
         }
@@ -388,16 +388,8 @@ public class Jeu implements Runnable {
         }
     }
 
-    /*
-    public void modifierNbJetonGare(int jetonsGare){ // utilisé pour test à effacer plus tard
-        nbJetonsGare = jetonsGare;
-    }
 
-    public void modifierNbCartesReserve(int a){ // fonction a effacer
-        for (int i = 0; i < a; i++){
-            reserve.keySet().toArray()[i] = 0;
-            ListeDeCartes liste = new ListeDeCartes();
-            reserve.put(String.valueOf(i), liste);
-        }
-    }*/
+    public void enleverNbJetonGare(int jetonsGare){ // utilisé pour test à effacer plus tard
+        nbJetonsGare -= jetonsGare;
+    }
 }

@@ -32,8 +32,16 @@ public abstract class Rail extends Carte{
         for (Tuile t : tuiles) {
             ArrayList<Tuile> tuilesVoisines = t.getVoisines();
             for (Tuile tt : tuilesVoisines) {
-                if (tt.estConstructible()) {
+                if (tt.estPosable()) {
                     tuilesPosables.add(tt);
+                }
+            }
+        }
+
+        if (tuilesPosables.isEmpty()){
+            for (Tuile t : joueur.getJeu().getTuiles()){
+                if (t.estPosable()){
+                    tuilesPosables.add(t);
                 }
             }
         }
@@ -44,31 +52,22 @@ public abstract class Rail extends Carte{
             }
         }
 
+
         Tuile t = null;
-        boolean check = false;
         String choix = "";
         String[] words;
+        boolean check = false;
 
         if (!tuilesPosables.isEmpty()) {
-            while (!check) {
-                t = null;
-                while (t == null) {
-                    choix = joueur.choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
-                    if (choix.isEmpty()){
-                        break;
-                    }
-                    words = choix.split(":");
-                    if (isNumeric(words[1]) > -1) {
-                        t = joueur.getJeu().getTuile(isNumeric(words[1]));
-                    }
-                }
-                if (choix.isEmpty()){
-                    break;
+            choix = joueur.choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
+            if (!choix.isEmpty()){
+                words = choix.split(":");
+                if (isNumeric(words[1]) > -1) {
+                    t = joueur.getJeu().getTuile(isNumeric(words[1]));
                 }
                 int surcout = 0;
-
                 if (enleveSurcout){ // enlève le surcout total
-                    check = true;
+
                 }
                 else if (enleveSurcoutJoueurs && (Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
 
@@ -85,14 +84,12 @@ public abstract class Rail extends Carte{
                     surcout += t.getNbGares();
                 }
                 else {
-                    surcout += t.getNbRails() + t.surCout() + t.getNbGares();
+                    surcout += t.getNbRails() + t.surCout();
                 }
-
-                if (!enleveSurcoutJoueurs && t.getNbRails() > 0){
+                if (!enleveSurcoutJoueurs && !enleveSurcout && !enleveCarteFerraille && t.getNbRails() > 0){
                     carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
                     joueur.ajouterCartesRecues(carte);
                 }
-
                 if (surcout <= joueur.getArgent()){
                     joueur.ajouterArgent(-surcout);
                     check = true;
@@ -102,14 +99,17 @@ public abstract class Rail extends Carte{
                     joueur.message("Il manque " + a + " pièces");
                 }
             }
+        }
+        if (check){
             if (t!= null && t.getType().equals("Etoile")){
                 joueur.ajouterPointScoreTotal(t.surCout());
             }
-
             if (t != null){
                 t.ajouterRail(joueur);
                 joueur.ajouterCoordonnees(t);
+                joueur.ajouterPointsRails(-1);
             }
         }
+
     }
 }

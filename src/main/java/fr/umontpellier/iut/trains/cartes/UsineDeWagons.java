@@ -26,26 +26,29 @@ public class UsineDeWagons extends Action {
         if (!choixPossibles.isEmpty()){
             String choix = joueur.choisir("Écartez une carte de votre main.", choixPossibles, null, true);
             Carte carte = joueur.getMain().retirer(choix);
-            int prix = carte.getvaleur()*3;
-            joueur.getJeu().ecarterCarte(carte);
-            choixPossibles.clear();
-            //boolean check = false;
-            for (String nomCarte: joueur.getJeu().getReserve().keySet()) {
-                // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
-                if (Objects.equals(joueur.getJeu().voirLaReserve(nomCarte).getType(), "Train") && joueur.getJeu().voirLaReserve(nomCarte).getCout() <= prix){
-                    choixPossibles.add("ACHAT:" + nomCarte);
+            if (carte != null){
+                int prix = carte.getvaleur()*3;
+                joueur.getJeu().ecarterCarte(carte);
+                choixPossibles.clear();
+                //boolean check = false;
+                for (String nomCarte: joueur.getJeu().getReserve().keySet()) {
+                    // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
+                    if (Objects.equals(joueur.getJeu().voirLaReserve(nomCarte).getType(), "Train") && joueur.getJeu().voirLaReserve(nomCarte).getCout() <= prix){
+                        choixPossibles.add("ACHAT:" + nomCarte);
+                    }
+                }
+
+                choix = joueur.choisir("Choisissez la carte que vous souhaitez acheter, elle doit coûter moins ou égal à " + prix, choixPossibles, null, false);
+                String[] choixDecoupe = choix.split(":");
+                Carte c = joueur.getJeu().prendreDansLaReserve(choixDecoupe[1]);
+                if (c != null){
+                    joueur.ajouterMain(c);
                 }
             }
 
-            choix = joueur.choisir("Choisissez la carte que vous souhaitez acheter, elle doit coûter moins ou égal à " + prix, choixPossibles, null, false);
-            String[] choixDecoupe = choix.split(":");
-            Carte c = joueur.getJeu().prendreDansLaReserve(choixDecoupe[1]);
-            if (c != null){
-                joueur.ajouterMain(c);
-            }
         }
         else {
-            joueur.message("Vous ne possédez aucune carte Train");
+            joueur.choisir("Vous ne possédez aucune carte Train. Cliquez sur Passer", null, null, true);
         }
     }
 }

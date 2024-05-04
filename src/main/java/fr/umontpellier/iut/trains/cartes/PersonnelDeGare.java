@@ -28,27 +28,19 @@ public class PersonnelDeGare extends Action {
         boutonList.add(piocher);
         boutonList.add(ferraille);
 
-        boolean check = false;
-        while (!check){
-            String choix = joueur.choisir("Choisissez 1 parmi ces 3 options : Piochez 1 carte. Recevez 1 pièce d'argent. Remettez 1 ferraille sur la pile ferraille", choixPossibles, boutonList, true);
+        String choix = joueur.choisir("Choisissez 1 parmi ces 3 options : Piochez 1 carte. Recevez 1 pièce d'argent. Remettez 1 ferraille sur la pile ferraille", choixPossibles, boutonList, true);
 
-            if (choix.equals("piocher")){
-                joueur.piocherEtAjouterMain();
-                check = true;
-            }
-            else if (choix.equals("argent")){
-                joueur.ajouterArgent(1);
-                check = true;
-            }
-            else {
-                Carte carte = joueur.getMain().retirer("Ferraille");
-                if (carte != null) {
-                    joueur.getMain().remove(carte);
-                    joueur.getJeu().ajouterReserve(carte);
-                    check = true;
-                } else {
-                    joueur.log("Vous n'avez pas de carte ferraille dans votre main");
-                }
+        if (choix.equals("piocher")){
+            joueur.piocherEtAjouterMain();
+        }
+        else if (choix.equals("argent")){
+            joueur.ajouterArgent(1);
+        }
+        else {
+            Carte carte = joueur.getMain().retirer("Ferraille");
+            if (carte != null) {
+                joueur.getMain().remove(carte);
+                joueur.getJeu().ajouterReserve(carte);
             }
         }
     }

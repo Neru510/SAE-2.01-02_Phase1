@@ -19,10 +19,9 @@ public class BureauDuChefDeGare extends Action {
             }
 
         }
-
+        joueur.getCartesEnJeu().add(this);
         if (!choixPossibles.isEmpty()){
             String choix = joueur.choisir("Choisissez une carte action que vous avez en main. Cette carte copie l'effet de la carte choisie.", choixPossibles, null, false);
-            joueur.getCartesEnJeu().add(this);
             while(choix.equals("Bureau du chef de gare")){
                 choixPossibles.remove(joueur.getMain().getCarte(choix));
                 choix = joueur.choisir("Choisissez une carte action que vous avez en main. Cette carte copie l'effet de la carte choisie.", choixPossibles, null, true);
