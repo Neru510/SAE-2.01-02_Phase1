@@ -18,7 +18,7 @@ public class HorairesTemporaires extends Action {
         while (i == 2 || joueur.getPioche().isEmpty()) {
             Carte carte = joueur.piocher();
             joueur.devoilerCarte(carte);
-            if (carte.getType().equals("Train")){
+            if (carte.getType().contains("Train")){
                 i++;
             }
             else {

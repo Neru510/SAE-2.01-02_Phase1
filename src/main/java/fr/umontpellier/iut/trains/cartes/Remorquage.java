@@ -20,14 +20,17 @@ public class Remorquage extends Action {
         ListeDeCartes defausse = joueur.getDefausse();
         ArrayList<Bouton> buttons = new ArrayList<>();
         for (Carte c : defausse){
-            if (c.getType().equals("Train")){
+            if (c.getType().contains("Train")){
                 buttons.add(new Bouton(c.getNom()));
                 choixPossibles.add(c.getNom());
             }
         }
         if (!buttons.isEmpty()){
-            String choix = joueur.choisir("Prenez une carte train de votre défausse et ajoutez-la à votre main.", choixPossibles, buttons, true);
+            String choix = joueur.choisir("Prenez une carte train de votre défausse et ajoutez-la à votre main.", choixPossibles, buttons, false);
             joueur.prendreDefausseEtAjouterMain(choix);
+        }
+        else {
+            joueur.choisir("Prenez une carte train de votre défausse et ajoutez-la à votre main.", null, null, true);
         }
     }
 

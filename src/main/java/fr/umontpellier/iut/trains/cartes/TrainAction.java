@@ -1,22 +1,18 @@
 package fr.umontpellier.iut.trains.cartes;
 
-public abstract class TrainAction extends Train {
-    private final static String typeSecondaire = "Action";
+import fr.umontpellier.iut.trains.Joueur;
 
-    public TrainAction(String nom, int nbPrestige, int cout, int valeur) {
-        super(nom, cout, valeur, nbPrestige);
-    }
-
-    public TrainAction(String nom, int cout, int valeur, String actionDescriptif) {
-        super(nom, cout, valeur);
-    }
+public abstract class TrainAction extends Carte {
+    private final static String typeSecondaire = "Train";
 
     public TrainAction(String nom, int cout, int valeur) {
-        super(nom, cout, valeur);
+        super(nom, "TrainAction", "bleu", cout, valeur);
     }
 
-    public String getTypeSecondaire(){
-        return typeSecondaire;
+    @Override
+    public void jouer(Joueur joueur, boolean cabineConduc){
+        jouer(joueur);
+        joueur.ajouterArgent(-getvaleur());
     }
 
 }

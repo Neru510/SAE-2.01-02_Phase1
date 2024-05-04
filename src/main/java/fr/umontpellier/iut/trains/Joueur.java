@@ -156,7 +156,7 @@ public class Joueur {
 
     public void piocherEtAjouterMain(int n){
         List<Carte> main = piocher(n);
-        if (!main.isEmpty()){
+        if (main!=null && !main.isEmpty()){
             this.main.addAll(main);
         }
     }
@@ -180,7 +180,7 @@ public class Joueur {
 
     public void prendreDefausseEtAjouterMain(String nomCarte){
         for (Carte c : defausse){
-            if (c.getNom().equals(nomCarte)){
+            if (c.getNom().contains(nomCarte)){
                 main.add(c);
                 defausse.retirer(c);
                 break;
@@ -218,7 +218,7 @@ public class Joueur {
         // À FAIRE
         int somme = nbPointsCourants;
         for (Tuile t : coordonnees){
-            if (t.getType().equals("Ville")){
+            if (t.getType().contains("Ville")){
                 somme += t.getNbGares()*2;
             }
         }
@@ -266,7 +266,10 @@ public class Joueur {
     public List<Carte> piocher(int n) {
         List<Carte> res = new ListeDeCartes();
         for (int i = 0; i < n ; i++) {
-            res.add(piocher());
+            Carte c = piocher();
+            if (c != null){
+                res.add(c);
+            }
         }
         if (res.isEmpty()) {
             return null;
@@ -333,14 +336,14 @@ public class Joueur {
         boolean finTour = false;
         List<String> choixChoisis = new ArrayList<>();
 
-        boolean ferraille = false;
+        boolean ferraille = false; // carte action dépotoire
         boolean rails = false;
         boolean enleveSurcout = false;
         boolean enleveSurcoutMontagne = false;
         boolean enleveSurcoutVille = false;
         boolean enleveSurcoutRiviere = false;
         boolean enleveSurcoutJoueurs = false;
-        boolean trainMatinal = false;
+        boolean trainMatinal = false; // carte action train matinal
         int k = 0;
 
         // Boucle principale
@@ -352,18 +355,17 @@ public class Joueur {
             // À FAIRE: préparer la liste des choix possibles
             for (Carte c: main) {
                 // ajoute les noms de toutes les cartes en main
-                choixPossibles.add(c.getNom());
+                if (c!=null){
+                    choixPossibles.add(c.getNom());
+                }
             }
 
             for (String nomCarte: jeu.getReserve().keySet()) {
                 // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
-                if (!(nomCarte.equals("Ferraille"))){
+                if (!(nomCarte.contains("Ferraille"))){
                     choixPossibles.add("ACHAT:" + nomCarte);
                 }
             }
-
-            choixPossibles.add("oui");
-            choixPossibles.add("non");
 
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
@@ -391,7 +393,8 @@ public class Joueur {
                     log("Pas assez d'argent, il manque " + cost);
                     choixChoisis.remove(choixChoisis.size()-1);
                 }
-            } else if ((choix.equals("Ferraille") || choix.isEmpty()) && k == 0) {
+            }
+            else if ((choix.equals("Ferraille") || choix.isEmpty()) && k == 0) {
                 ArrayList<Carte> cartes = new ArrayList<>();
                 for (Carte c : main){
                     if (c.getNom().equals("Ferraille")){
@@ -406,15 +409,29 @@ public class Joueur {
                 // terminer le tour
                 finTour = true;
 
-            } else if (choix.equals("Train matinal")){
+            }
+            else if (choix.equals("Train matinal")){
                 trainMatinal = true;
                 Carte c = main.retirer(choix);
                 c.jouer(this);
                 cartesEnJeu.add(c);
             }
+            else if (choix.equals("Bureau du chef de gare")){
+                Carte c = main.retirer(choix);
+                int a = c.jouerBureau(this, choixChoisis);
+                if (a == 1){ // train matinal
+                    trainMatinal = true;
+                }
+                else if (a == -1){ // Dépotoir
+                    ferraille = true;
+                }
+                else if (a == -2){ // ferronerie
+                    rails = true;
+                }
+            }
             else {
                 Carte carte = main.retirer(choix);
-                if (carte != null && Objects.equals(carte.getType(), "Rail")) {
+                if (carte != null && carte.getType().equals("Rail")) {
                     switch (choix) {
                         case "Voie souterraine" -> enleveSurcout = true;
                         case "Tunnel" -> enleveSurcoutMontagne = true;
@@ -426,11 +443,13 @@ public class Joueur {
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     if (rails) argent += 2;
                     carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs, ferraille);  // exécuter l'action de la carte
-
-                } else if (carte != null && carte.getNom().equals("Gare")) {
+                }
+                else if (carte != null && carte.getNom().equals("Gare")) {
                     cartesEnJeu.add(carte);
                     carte.jouer(this, ferraille);
-                } else if (carte != null) {
+                }
+
+                else if (carte != null) {
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
                     carte.jouer(this);  // exécuter l'action de la carte
@@ -450,16 +469,13 @@ public class Joueur {
                 boutons.add(oui);
                 boutons.add(non);
                 String secondChoix = this.choisir("Voulez-vous mettre la carte sur votre deck ?", null, boutons, true);
-                if (secondChoix.equals("oui")){
+                if (secondChoix.contains("oui")){
                     String[] words = choix.split(":");
                     Carte c = cartesRecues.retirer(words[1]);
                     ajouterAuDessusDeLaPioche(c);
                 }
             }
 
-            if (cartesEnJeu.getCarte(choix)!=null && rails && !choix.equals("Ferronnerie") && cartesEnJeu.getCarte(choix).getType().equals("Rail")){
-                argent += 2;
-            }
             k++;
 
             if (jeu.getNbJetonsGare() == 0){
@@ -646,7 +662,7 @@ public class Joueur {
         List<Carte> cartes = new ArrayList<>();
         List<Carte> main = new ArrayList<>(this.main);
         for (Carte c : main){
-            if (c.getNom().equals(nomCarte)){
+            if (c.getNom().contains(nomCarte)){
                 cartes.add(c);
                 this.main.remove(c);
             }

@@ -16,7 +16,7 @@ public class Echangeur extends Action {
         List<String> choixPossibles = new ArrayList<>();
 
         for (Carte c : joueur.getCartesEnJeu()){
-            if (c.getType().equals("Train")){
+            if (c.getType().contains("Train")){
                 choixPossibles.add(c.getNom());
             }
         }
