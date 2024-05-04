@@ -16,7 +16,7 @@ public class ParcDAttractions extends Action {
 
         for (Carte c: joueur.getCartesEnJeu()) {
             // ajoute les noms de toutes les cartes en main
-            if (c.getType().equals("Train")){
+            if (c.getType().contains("Train")){
                 choixPossibles.add(c.getNom());
             }
         }
@@ -24,7 +24,7 @@ public class ParcDAttractions extends Action {
         String choix = joueur.choisir("Recevez X pièces. X est égal à la valeur de vente d'une de vos cartes train en jeu.", choixPossibles, null, true);
 
         Carte carte = joueur.getCartesEnJeu().getCarte(choix);
-        if (carte != null && carte.getType().equals("Train")){
+        if (carte != null && carte.getType().contains("Train")){
             joueur.ajouterArgent(carte.getvaleur());
         }
     }

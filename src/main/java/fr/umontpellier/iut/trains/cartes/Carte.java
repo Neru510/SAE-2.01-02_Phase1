@@ -88,10 +88,13 @@ public abstract class Carte {
     public void jouer(Joueur joueur, boolean enleveSurcout, boolean enleveSurcoutMontagne, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutJoueurs, boolean ferraille){};
 
     public void jouer(Joueur joueur, boolean pasDeRails){};
+    public int jouerBureau(Joueur joueur, List<String> choixChoisis){
+        return 0;
+    }
 
     public boolean mainContientTypeCarte(Joueur joueur, String type) {
         for (Carte carte : joueur.getMain()) {
-            if (Objects.equals(carte.getType(), type)) {
+            if (carte.getType().contains(type)) {
                 return true;
             }
         }
@@ -102,7 +105,7 @@ public abstract class Carte {
         List<String> resListe = new ArrayList<>();
         if (mainContientTypeCarte(joueur, type)) {
             for (Carte c : joueur.getMain()){
-                if (Objects.equals(c.getType(), type)) {
+                if (c.getType().contains(type)) {
                     resListe.add(c.getNom());
                 }
             }

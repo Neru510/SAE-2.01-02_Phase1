@@ -22,4 +22,15 @@ public class HorairesEstivaux extends Action {
             joueur.ajouterArgent(3);
         }
     }
+
+    @Override
+    public void jouer(Joueur joueur, boolean bureau) {
+        List<String> choixPossibles = choixOuiNon();
+        List<Bouton> boutonList = choixOuiNonBouton();
+        String choix = joueur.choisir("Vous pouvez écarter cette carte. Dans ce cas, recevez 3 pièces.", choixPossibles, boutonList, true);
+        if (choix.equals("oui")) {
+            joueur.getJeu().ecarterCarte(joueur.getCartesEnJeu().retirer("Bureau du chef de gare"));
+            joueur.ajouterArgent(3);
+        }
+    }
 }

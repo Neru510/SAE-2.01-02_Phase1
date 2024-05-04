@@ -10,9 +10,9 @@ public abstract class Action extends Carte{
     public Action(String nom, int cout, int valeur){
         super(nom, "Action", "Rouge", cout, valeur);
     }
-
     @Override
-    public void jouer(Joueur joueur) {
-        super.jouer(joueur);
+    public void jouer(Joueur joueur, boolean cabineConduc){
+        jouer(joueur);
+        joueur.ajouterArgent(-getvaleur());
     }
 }
