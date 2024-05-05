@@ -161,11 +161,12 @@ public class Joueur {
         }
     }
 
-    public void piocherEtAjouterMain(){
+    public Carte piocherEtAjouterMain(){
         Carte carte = piocher();
         if (carte != null){
             main.add(carte);
         }
+        return carte;
     }
 
     public void defausser(Carte carte){

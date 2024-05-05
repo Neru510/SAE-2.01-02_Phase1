@@ -15,16 +15,19 @@ public class HorairesTemporaires extends Action {
     public void jouer(Joueur joueur) {
         super.jouer(joueur);
         int i = 0;
-        while (i == 2 || joueur.getPioche().isEmpty()) {
-            Carte carte = joueur.piocher();
+        ListeDeCartes res = new ListeDeCartes();
+
+        while (((!joueur.getPioche().isEmpty()) || (!joueur.getDefausse().isEmpty())) && i < 2) {
+            Carte carte = joueur.piocherEtAjouterMain();
             joueur.devoilerCarte(carte);
-            if (carte.getType().contains("Train")){
+            if (carte.getType().contains("Train")) {
                 i++;
-            }
-            else {
+            } else {
+                res.add(carte);
                 joueur.removeCarte(carte);
-                joueur.defausser(carte);
             }
         }
+        joueur.message(i +" carte de type train trouver");
+        joueur.defausser(res);
     }
 }
