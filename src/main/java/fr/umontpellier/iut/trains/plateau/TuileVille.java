@@ -38,6 +38,7 @@ public class TuileVille extends Tuile {
         return "Ville";
     }
 
+    @Override
     public int getNbGaresMax(){
         return nbGaresMax;
     }

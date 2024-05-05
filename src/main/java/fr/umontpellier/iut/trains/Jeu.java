@@ -128,9 +128,6 @@ public class Jeu implements Runnable {
         return reserve;
     }
 
-    public String getNomVille(){
-        return nomVille;
-    }
 
     /**
      * Renvoie un ensemble de tous les noms des cartes en jeu.

@@ -101,6 +101,10 @@ public abstract class Tuile {
         return 0;
     }
 
+    public int getNbGaresMax() {
+        return 0;
+    }
+
     /**
      * @return une représentation de la tuile sous la forme d'un dictionnaire de
      *         valeurs sérialisables (qui sera converti en JSON pour l'envoyer à
