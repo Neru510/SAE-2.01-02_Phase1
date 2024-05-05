@@ -369,11 +369,72 @@ public class Joueur {
                 }
             }
 
+            if (pointsRails > 0 && coordonnees.isEmpty()){
+                for (int i = 0; i < jeu.getTuiles().size(); i++){
+                    if (jeu.getTuiles().get(i).estPosable()){
+                        choixPossibles.add("TUILE:" + i);
+                    }
+                }
+            }
+            else if (pointsRails > 0){
+                ArrayList<Tuile> tuiles = new ArrayList<>();
+                tuiles.addAll(coordonnees);
+                for (Tuile t : coordonnees){
+                    tuiles.addAll(t.getVoisines());
+                }
+
+                for (int i = 0; i < jeu.getTuiles().size(); i++){
+                    if (tuiles.contains(jeu.getTuiles().get(i)) && jeu.getTuiles().get(i).estPosable()){
+                        choixPossibles.add("TUILE:" + i);
+                    }
+                }
+
+                if (!ferraille){
+                    ajouterCartesRecues(getJeu().prendreDansLaReserve("Ferraille"));
+                }
+
+                String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
+
+                casIsTest(choix, ferraille, enleveSurcout, enleveSurcoutJoueurs, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutMontagne);
+            }
+
+
             // Choix de l'action à réaliser
             String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
             choixChoisis.add(choix);
             // À FAIRE: exécuter l'action demandée par le joueur
-            if (choix.startsWith("ACHAT:")) {
+            Carte abc = main.getCarte(choix); // pour les tests
+            if (coordonnees.isEmpty() && abc != null && abc.getType().equals("Rail")){
+                choixPossibles.clear();
+                Carte c = main.retirer(choix);
+                cartesEnJeu.add(c);
+                switch (choix) {
+                    case "Voie souterraine" -> enleveSurcout = true;
+                    case "Tunnel" -> enleveSurcoutMontagne = true;
+                    case "Viaduc" -> enleveSurcoutVille = true;
+                    case "Pont en acier" -> enleveSurcoutRiviere = true;
+                    case "Coopération" -> enleveSurcoutJoueurs = true;
+                }
+                for (int i = 0; i < jeu.getTuiles().size(); i++){
+                    if (jeu.getTuiles().get(i).estPosable()){
+                        choixPossibles.add("TUILE:" + i);
+                    }
+                }
+
+                if (!ferraille){
+                    ajouterCartesRecues(getJeu().prendreDansLaReserve("Ferraille"));
+                }
+                pointsRails ++;
+
+                choix = choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
+
+                casIsTest(choix, ferraille, enleveSurcout, enleveSurcoutJoueurs, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutMontagne);
+
+            }
+            else if (coordonnees.isEmpty() && choix.startsWith("TUILE:")){
+                casIsTest(choix, ferraille, enleveSurcout, enleveSurcoutJoueurs, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutMontagne);
+            }
+            else if (choix.startsWith("ACHAT:")) {
                 // prendre une carte dans la réserve
                 String nomCarte = choix.split(":")[1];
                 Carte carte = jeu.voirLaReserve(nomCarte);
@@ -498,6 +559,51 @@ public class Joueur {
         Carte carteFeraille = jeu.prendreDansLaReserve("Ferraille");
         cartesRecues.add(carteFeraille);
         log("Reçoit " + carteFeraille);
+    }
+
+    public void casIsTest(String choix, boolean ferraille, boolean enleveSurcout, boolean enleveSurcoutJoueurs, boolean enleveSurcoutVille, boolean enleveSurcoutRiviere, boolean enleveSurcoutMontagne){
+        Tuile t = null;
+        String[] words;
+        if (!choix.isEmpty()) {
+            words = choix.split(":");
+            if (isNumeric(words[1]) > -1) {
+                t = getJeu().getTuile(isNumeric(words[1]));
+            }
+            if (t != null){
+                int surcout = 0;
+                if (enleveSurcout || enleveSurcoutJoueurs && (Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)) {
+
+                }
+                else if ((Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)) {
+                    surcout += t.getNbRails();
+                    if (t.getNbRails() > 0 && !ferraille) {
+                        Carte carte = getJeu().prendreDansLaReserve("Ferraille");
+                        ajouterCartesRecues(carte);
+                    }
+                } else if (enleveSurcoutJoueurs) {
+                    surcout += t.surCout();
+                    surcout += t.getNbGares();
+                } else {
+                    surcout += t.getNbRails() + t.surCout();
+                }
+                if (!enleveSurcoutJoueurs && t.getNbRails() > 0) {
+                    Carte carte = getJeu().prendreDansLaReserve("Ferraille");
+                    ajouterCartesRecues(carte);
+                }
+
+                if (surcout <= argent) {
+                    argent -= surcout;
+                    t.ajouterRail(this);
+                    pointsRails--;
+                    if (t.getType().equals("Etoile")){
+                        ajouterPointScoreTotal(t.surCout());
+                    }
+                } else {
+                    int a = surcout - argent;
+                    message("Il manque " + a + " pièces");
+                }
+            }
+        }
     }
 
     /**
@@ -672,7 +778,7 @@ public class Joueur {
         log("Le joueur " + nom + " dévoile la carte : " + carte.toString());
     }
 
-    public void devoilerCartes(ListeDeCartes cartes) {
+    public void devoilerCartes(List<Carte> cartes) {
         log("Le joueur " + nom + " dévoile les cartes : " + cartes.toString());
     }
 

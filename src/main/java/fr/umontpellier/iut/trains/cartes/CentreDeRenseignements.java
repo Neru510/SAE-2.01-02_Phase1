@@ -14,8 +14,8 @@ public class CentreDeRenseignements extends Action {
     @Override
     public void jouer(Joueur joueur) {
         super.jouer(joueur);
-        int tailleReel = 0;
-        ListeDeCartes devoiler = new ListeDeCartes();
+        int tailleReel;
+        ListeDeCartes devoiler;
         List<Bouton> boutons = new ArrayList<>();
         int taille = joueur.getPioche().size() + joueur.getDefausse().size();
         if (taille >= 4) {
@@ -37,21 +37,21 @@ public class CentreDeRenseignements extends Action {
             joueur.ajouterMain(carte);
             devoiler.retirer(carte.getNom());
             joueur.message("Carte " + carte.getNom() + " ajoutée à votre main");
+        }
+        for (Carte c : devoiler) {
+            boutons.add(new Bouton(c.getNom(), c.getNom()));
+        }
 
+        while(!devoiler.isEmpty()) {
+            joueur.devoilerCartes(devoiler);
+            boutons.clear();
             for (Carte c : devoiler) {
                 boutons.add(new Bouton(c.getNom(), c.getNom()));
             }
-
-            while(!devoiler.isEmpty()) {
-                joueur.devoilerCartes(devoiler);
-                boutons.clear();
-                for (Carte c : devoiler) {
-                    boutons.add(new Bouton(c.getNom(), c.getNom()));
-                }
-                choix = joueur.choisir("Choisissez les cartes dans l'ordre à remettre sur la pioche", null, boutons, false);
-                Carte c = devoiler.retirer(choix);
-                joueur.ajouterAuDessusDeLaPioche(c);
-            }
+            choix = joueur.choisir("Choisissez les cartes dans l'ordre à remettre sur la pioche", null, boutons, false);
+            Carte c = devoiler.retirer(choix);
+            joueur.ajouterAuDessusDeLaPioche(c);
         }
+
     }
 }

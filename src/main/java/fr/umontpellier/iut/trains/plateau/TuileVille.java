@@ -24,6 +24,11 @@ public class TuileVille extends Tuile {
     }
 
     @Override
+    public boolean peutPoserGare(){
+        return true;
+    }
+
+    @Override
     public int surCout() {
         return 1 + nbGaresPosees;
     }

@@ -21,16 +21,16 @@ public class CentreDeControle extends Action {
             boutons.add(new Bouton(carte.getNom()));
         }
 
-        String choix = joueur.choisir("Choisissez une carte qui pourrer etre le première carte de la pioche.", null, boutons, false);
+        String choix = joueur.choisir("Choisissez une carte qui pourrait être le première carte de la pioche.", null, boutons, false);
 
         Carte carte = choixPossibles.getCarte(choix);
         Carte cartePioche = joueur.getPioche().get(0);
         joueur.devoilerCarte(cartePioche);
         if (cartePioche.getNom().equals(carte.getNom())){
-            joueur.message("Gagné, vous garder la carte");
+            joueur.message("Gagné, vous gardez la carte");
             joueur.piocherEtAjouterMain();
         } else {
-            joueur.message("Perdu, vous la remettez au dessus du paquet");
+            joueur.message("Perdu...");
         }
     }
 }

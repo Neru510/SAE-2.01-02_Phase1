@@ -117,11 +117,14 @@ public abstract class Tuile {
         return map;
     }
 
-    public abstract boolean estPosable();
+    public abstract boolean estPosable(); // utilisé pour savoir si les rails peuvent être construite dessus
 
-    public boolean estConstructible(){
+    public boolean estConstructible(){ // utilisé pour que le joueur choisisse sa position de départ
         return true;
-    };
+    }
+    public boolean peutPoserGare(){
+        return false;
+    }
 
     public abstract int surCout();
 

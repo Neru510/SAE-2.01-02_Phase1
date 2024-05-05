@@ -34,7 +34,7 @@ public class Gare extends Carte {
             if (tuilesVoisines != null){
                 tuiles.addAll(tuilesVoisines);
                 for (Tuile t : tuiles){
-                    if (t.estPosable() && t.getNbGares() == 0){
+                    if (t.peutPoserGare() && t.getNbGares() == 0){
                         tuilesPosables.add(t);
                     }
                 }

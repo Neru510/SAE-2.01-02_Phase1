@@ -330,7 +330,7 @@ public class CartesEleveTest extends BaseTestClass {
         assertEquals(0, getArgent(joueur));
         assertEquals(0, getPointsRails(joueur));
     }
-    //@Disabled
+
     @Test
     void test_BureauDuChefDeGare_BureauDuChefDeGare_HorairesEstivaux_ecarte() {
         setupJeu("Horaires estivaux", "Bureau du chef de gare");
@@ -501,7 +501,6 @@ public class CartesEleveTest extends BaseTestClass {
         assertEquals(0, getPointsRails(joueur));
     }
 
-    //@Disabled
     @Test
     void test_BureauDuChefDeGare_CentreDeRenseignements_passe() {
         setupJeu("Centre de renseignements", "Bureau du chef de gare");
@@ -654,7 +653,7 @@ public class CartesEleveTest extends BaseTestClass {
         assertEquals(0, getArgent(joueur));
         assertEquals(1, getPointsRails(joueur));
     }
-    @Disabled
+
     @Test
     void test_BureauDuChefDeGare_Depotoir_PoseDeRails_avec_adv() {
         setupJeu("Dépotoir", "Bureau du chef de gare");
@@ -683,7 +682,6 @@ public class CartesEleveTest extends BaseTestClass {
         assertEquals(0, getPointsRails(joueur));
     }
 
-    //@Disabled
     @Test
     void test_BureauDuChefDeGare_Depotoir_PoseDeRails_avec_adv_compare_le_nombre() {
         setupJeu("Dépotoir", "Bureau du chef de gare");
@@ -755,7 +753,6 @@ public class CartesEleveTest extends BaseTestClass {
         assertEquals(2, getArgent(joueur));
         assertEquals(1, getPointsRails(joueur));
     }
-    //@Disabled
     @Test
     void test_BureauDuChefDeGare_HorairesEstivaux_ecarte() {
         setupJeu("Horaires estivaux", "Bureau du chef de gare");
@@ -804,7 +801,6 @@ public class CartesEleveTest extends BaseTestClass {
         assertTrue(containsReferences(cartesEcartees));
     }
 
-    @Disabled
     @Test
     void test_BureauDuChefDeGare_HorairesTemporaires() {
         setupJeu("Horaires temporaires", "Bureau du chef de gare");
@@ -1280,7 +1276,7 @@ public class CartesEleveTest extends BaseTestClass {
         addAll(main, bu, tt, omni1, omni2, omni3, omni4, omni5);
         jouerTourPartiel(instructions);
 
-        assertTrue(containsReferences(main, tt));
+        assertTrue(containsReferences(main, tt ));
         assertTrue(containsReferencesInOrder(pioche, c));
         assertTrue(containsReferences(defausse));
         assertTrue(containsReferences(cartesEnJeu, bu, omni1, omni2, omni3, omni4, omni5));
@@ -1334,8 +1330,7 @@ public class CartesEleveTest extends BaseTestClass {
     }
 
     @Test
-    void test_CentreDeRenseignement_remettrePioche_carteChoisie()
-    {
+    void test_CentreDeRenseignement_remettrePioche_carteChoisie(){
         setupJeu();
         initialisation();
 
@@ -1506,7 +1501,7 @@ public class CartesEleveTest extends BaseTestClass {
 
         addAll(main, c, a);
 
-        jouerTourPartiel("Dépotoir", "Pose de rails", "");
+        jouerTourPartiel("Dépotoir", "Pose de rails");
 
         assertTrue(containsReferences(main));
         assertTrue(containsReferencesInOrder(pioche));
@@ -1737,7 +1732,7 @@ public class CartesEleveTest extends BaseTestClass {
         Carte f = reserve.get("Ferraille").get(0);
 
         addAll(main, fero1, pr, pt, vi, tu, vo, co);
-        jouerTourPartiel("Ferronnerie", "Pose de rails", "", "Pont en acier", "", "Tunnel", "", "Viaduc", "", "Voie souterraine", "", "Coopération", "");
+        jouerTourPartiel("Ferronnerie", "Pose de rails", "Pont en acier", "Tunnel", "Viaduc", "Voie souterraine", "Coopération");
 
         assertTrue(containsReferences(main));
         assertTrue(containsReferences(defausse));
@@ -1758,7 +1753,7 @@ public class CartesEleveTest extends BaseTestClass {
         Carte f = reserve.get("Ferraille").get(0);
 
         addAll(main, fero1, pr, pt);
-        jouerTourPartiel("Ferronnerie", "Pose de rails", "", "Pont en acier", "");
+        jouerTourPartiel("Ferronnerie", "Pose de rails", "Pont en acier");
 
         assertTrue(containsReferences(main));
         assertTrue(containsReferences(defausse));
@@ -1845,8 +1840,6 @@ public class CartesEleveTest extends BaseTestClass {
         assertEquals(0, getArgent(joueur));
         assertEquals(0, getPointsRails(joueur));
     }
-
-    @Disabled
     @Test
     void test_HorairesTemporaires_Moins_2_Cartes_Trains_Defausse() {
         setupJeu("Horaires temporaires");
@@ -2000,7 +1993,7 @@ public class CartesEleveTest extends BaseTestClass {
         Carte f = reserve.get("Ferraille").get(0);
 
         addAll(main, c);
-        jouerTourPartiel( "Pose de rails", "TUILE:40", "");
+        jouerTourPartiel( "Pose de rails", "TUILE:40");
 
         checkPlateau(null, List.of(41), null);
         assertTrue(containsReferences(main));

@@ -28,20 +28,14 @@ public abstract class Rail extends Carte{
         List<String> choixPossibles = new ArrayList<>();
         ArrayList<Tuile> tuiles = joueur.getCoordonnees();
         ArrayList<Tuile> tuilesPosables = new ArrayList<>();
-
         for (Tuile t : tuiles) {
+            if(t.estConstructible()){
+                tuilesPosables.add(t);
+            }
             ArrayList<Tuile> tuilesVoisines = t.getVoisines();
             for (Tuile tt : tuilesVoisines) {
-                if (tt.estPosable()) {
+                if (tt.estConstructible()) {
                     tuilesPosables.add(tt);
-                }
-            }
-        }
-
-        if (tuilesPosables.isEmpty()){
-            for (Tuile t : joueur.getJeu().getTuiles()){
-                if (t.estPosable()){
-                    tuilesPosables.add(t);
                 }
             }
         }
@@ -53,28 +47,39 @@ public abstract class Rail extends Carte{
         }
 
 
+
         Tuile t = null;
+        boolean check = false;
         String choix = "";
         String[] words;
-        boolean check = false;
 
         if (!tuilesPosables.isEmpty()) {
-            choix = joueur.choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
-            if (!choix.isEmpty()){
-                words = choix.split(":");
-                if (isNumeric(words[1]) > -1) {
-                    t = joueur.getJeu().getTuile(isNumeric(words[1]));
+            while (!check) {
+                t = null;
+                while (t == null) {
+                    choix = joueur.choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
+                    if (choix.isEmpty()){
+                        break;
+                    }
+                    words = choix.split(":");
+                    if (isNumeric(words[1]) > -1) {
+                        t = joueur.getJeu().getTuile(isNumeric(words[1]));
+                    }
+                }
+                if (choix.isEmpty()){
+                    break;
                 }
                 int surcout = 0;
-                if (enleveSurcout){ // enlève le surcout total
 
+                if (enleveSurcout){ // enlève le surcout total
+                    check = true;
                 }
                 else if (enleveSurcoutJoueurs && (Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
 
                 }
                 else if ((Objects.equals(t.getType(), "Ville") && enleveSurcoutVille) || (Objects.equals(t.getType(), "Fleuve") && enleveSurcoutRiviere) || (Objects.equals(t.getType(), "Montagne") && enleveSurcoutMontagne)){
                     surcout += t.getNbRails();
-                    if (t.getNbRails() > 0){
+                    if (t.getNbRails() > 0 && !enleveCarteFerraille){
                         carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
                         joueur.ajouterCartesRecues(carte);
                     }
@@ -86,10 +91,12 @@ public abstract class Rail extends Carte{
                 else {
                     surcout += t.getNbRails() + t.surCout();
                 }
-                if (!enleveSurcoutJoueurs && !enleveSurcout && !enleveCarteFerraille && t.getNbRails() > 0){
+
+                if (!enleveSurcoutJoueurs && t.getNbRails() > 0){
                     carte = joueur.getJeu().prendreDansLaReserve("Ferraille");
                     joueur.ajouterCartesRecues(carte);
                 }
+
                 if (surcout <= joueur.getArgent()){
                     joueur.ajouterArgent(-surcout);
                     check = true;
@@ -99,17 +106,14 @@ public abstract class Rail extends Carte{
                     joueur.message("Il manque " + a + " pièces");
                 }
             }
-        }
-        if (check){
             if (t!= null && t.getType().equals("Etoile")){
                 joueur.ajouterPointScoreTotal(t.surCout());
             }
+
             if (t != null){
                 t.ajouterRail(joueur);
                 joueur.ajouterCoordonnees(t);
-                joueur.ajouterPointsRails(-1);
             }
         }
-
     }
 }
