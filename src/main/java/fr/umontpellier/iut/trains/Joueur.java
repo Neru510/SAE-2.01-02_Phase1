@@ -378,24 +378,20 @@ public class Joueur {
             }
             else if (pointsRails > 0){
                 ArrayList<Tuile> tuiles = new ArrayList<>();
-                tuiles.addAll(coordonnees);
+
                 for (Tuile t : coordonnees){
                     tuiles.addAll(t.getVoisines());
                 }
-
+                int count = 0;
                 for (int i = 0; i < jeu.getTuiles().size(); i++){
                     if (tuiles.contains(jeu.getTuiles().get(i)) && jeu.getTuiles().get(i).estPosable()){
                         choixPossibles.add("TUILE:" + i);
+                        count ++;
+                    }
+                    if (tuiles.size() == count){
+                        break;
                     }
                 }
-
-                if (!ferraille){
-                    ajouterCartesRecues(getJeu().prendreDansLaReserve("Ferraille"));
-                }
-
-                String choix = choisir(String.format("Tour de %s", this.nom), choixPossibles, null, true);
-
-                casIsTest(choix, ferraille, enleveSurcout, enleveSurcoutJoueurs, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutMontagne);
             }
 
 
@@ -405,9 +401,9 @@ public class Joueur {
             // À FAIRE: exécuter l'action demandée par le joueur
             Carte abc = main.getCarte(choix); // pour les tests
             if (coordonnees.isEmpty() && abc != null && abc.getType().equals("Rail")){
-                choixPossibles.clear();
                 Carte c = main.retirer(choix);
                 cartesEnJeu.add(c);
+                argent += rails*2;
                 switch (choix) {
                     case "Voie souterraine" -> enleveSurcout = true;
                     case "Tunnel" -> enleveSurcoutMontagne = true;
@@ -415,23 +411,14 @@ public class Joueur {
                     case "Pont en acier" -> enleveSurcoutRiviere = true;
                     case "Coopération" -> enleveSurcoutJoueurs = true;
                 }
-                for (int i = 0; i < jeu.getTuiles().size(); i++){
-                    if (jeu.getTuiles().get(i).estPosable()){
-                        choixPossibles.add("TUILE:" + i);
-                    }
-                }
 
                 if (!ferraille){
                     ajouterCartesRecues(getJeu().prendreDansLaReserve("Ferraille"));
                 }
                 pointsRails ++;
 
-                choix = choisir("Choisissez une tuile sur laquelle mettre vos rails", choixPossibles, null, true);
-
-                casIsTest(choix, ferraille, enleveSurcout, enleveSurcoutJoueurs, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutMontagne);
-
             }
-            else if (coordonnees.isEmpty() && choix.startsWith("TUILE:")){
+            else if (choix.startsWith("TUILE:")){
                 casIsTest(choix, ferraille, enleveSurcout, enleveSurcoutJoueurs, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutMontagne);
             }
             else if (choix.startsWith("ACHAT:")) {
@@ -504,8 +491,8 @@ public class Joueur {
                     }
                     log("Joue " + carte); // affichage dans le log
                     cartesEnJeu.add(carte); // mettre la carte en jeu
-                    if (rails != 0) argent += 2*rails;
-                    carte.jouer(this, enleveSurcout, enleveSurcoutMontagne, enleveSurcoutVille, enleveSurcoutRiviere, enleveSurcoutJoueurs, ferraille);  // exécuter l'action de la carte
+                    argent += 2*rails;
+                    carte.jouer(this, ferraille);  // exécuter l'action de la carte
                 }
                 else if (carte != null && carte.getNom().equals("Gare")) {
                     cartesEnJeu.add(carte);
