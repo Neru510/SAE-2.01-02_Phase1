@@ -31,7 +31,7 @@ public class Gare extends Carte {
             for (Tuile t : tuiles) {
                 tuilesVoisines = t.getVoisines();
             }
-            //assert tuilesVoisines != null;
+            if (tuilesVoisines != null){
                 tuiles.addAll(tuilesVoisines);
                 for (Tuile t : tuiles){
                     if (t.peutPoserGare() && (t.getNbGares() < t.getNbGaresMax())){
@@ -45,7 +45,13 @@ public class Gare extends Carte {
                     }
                 }
             }
-
+            else { // test
+                for (int i = 0; i < joueur.getJeu().getTuiles().size(); i++){
+                    if (joueur.getJeu().getTuiles().get(i).estPosable()) {
+                        choixPossibles.add("TUILE:" + i);
+                    }
+                }
+            }
             String choix = joueur.choisir("Choisit une tuile sur laquelle mettre ta gare", choixPossibles, null, true);
             String[] words = choix.split(":");
             int index;
@@ -57,5 +63,9 @@ public class Gare extends Carte {
                     joueur.getJeu().enleverNbJetonGare(1);
                 }
             }
+
         }
+
+
+    }
 }
