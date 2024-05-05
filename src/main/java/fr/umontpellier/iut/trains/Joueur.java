@@ -782,12 +782,14 @@ public class Joueur {
     }
 
     public ListeDeCartes getToutLesCarteEnJeu(){
+        Set<Carte> carteSet = new HashSet<>(getMain());
+        carteSet.addAll(getMain());
+        carteSet.addAll(getPioche());
+        carteSet.addAll(getDefausse());
+        carteSet.addAll(getCartesEnJeu());
+        carteSet.addAll(getCartesRecues());
         ListeDeCartes carte = new ListeDeCartes();
-        carte.addAll(getMain());
-        carte.addAll(getPioche());
-        carte.addAll(getDefausse());
-        carte.addAll(getCartesEnJeu());
-        carte.addAll(getCartesRecues());
+        carte.addAll(carteSet);
         return carte;
     }
     /*
