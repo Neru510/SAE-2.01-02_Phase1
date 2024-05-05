@@ -574,7 +574,7 @@ public class Joueur {
                 } else {
                     surcout += t.getNbRails() + t.surCout();
                 }
-                if (!enleveSurcoutJoueurs && t.getNbRails() > 0) {
+                if (t.getNbRails() > 0 && !enleveSurcoutJoueurs && !ferraille) {
                     Carte carte = getJeu().prendreDansLaReserve("Ferraille");
                     ajouterCartesRecues(carte);
                 }

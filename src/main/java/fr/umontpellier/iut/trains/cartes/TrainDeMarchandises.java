@@ -27,10 +27,13 @@ public class TrainDeMarchandises extends TrainAction {
                 choixPossibles.add(c.getNom());
             }
         }
+        String choix;
         if (choixPossibles.isEmpty()){
-            return null;
+            choix = joueur.choisir("Vous n'avez plus de carte ferraille. Cliquez sur passer", choixPossibles, null, true);
         }
-        String choix = joueur.choisir("Remettez sur la pile ferraille autant de cartes ferraille que vous voulez de votre main. Recevez 1 pièce par carte ferraille remise.", choixPossibles, null, true);
+        else {
+            choix = joueur.choisir("Remettez sur la pile ferraille autant de cartes ferraille que vous voulez de votre main. Recevez 1 pièce par carte ferraille remise.", choixPossibles, null, true);
+        }
         Carte c = joueur.getMain().retirer(choix);
         if (c!=null){
             joueur.getJeu().ajouterReserve(c);

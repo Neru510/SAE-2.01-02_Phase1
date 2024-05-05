@@ -229,6 +229,15 @@ public class Jeu implements Runnable {
             //faire joueur choisir position
             Tuile t = j.choisirPosition(choix);
             t.ajouterRail(j);
+            int i = 0;
+            boolean check = true;
+            while (check){
+                if (tuiles.get(i).getNbRails() > 0){
+                    tuiles.remove(i);
+                    check = false;
+                }
+                i++;
+            }
         }
 
 

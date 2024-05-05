@@ -30,7 +30,6 @@ public class UsineDeWagons extends Action {
                 int prix = carte.getvaleur()*3;
                 joueur.getJeu().ecarterCarte(carte);
                 choixPossibles.clear();
-                //boolean check = false;
                 for (String nomCarte: joueur.getJeu().getReserve().keySet()) {
                     // ajoute les noms des cartes dans la réserve préfixés de "ACHAT:"
                     if (Objects.equals(joueur.getJeu().voirLaReserve(nomCarte).getType(), "Train") && joueur.getJeu().voirLaReserve(nomCarte).getCout() <= prix){
