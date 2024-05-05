@@ -233,7 +233,7 @@ public class Jeu implements Runnable {
             boolean check = true;
             while (check){
                 if (tuiles.get(i).getNbRails() > 0){
-                    choix.remove(i);
+                    choix.remove("TUILE:" + i);
                     check = false;
                 }
                 i++;
